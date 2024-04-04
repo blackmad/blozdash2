@@ -4,6 +4,7 @@ import { Value } from '@sinclair/typebox/value';
 export const UntypedCommonProperties = Type.Object({
   id: Type.String(),
   title: Type.String(),
+  sortOrder: Type.Number(),
   tag: Type.Union([Type.String(), Type.Undefined()]),
   subtitle: Type.Union([Type.String(), Type.Undefined()]),
   group: Type.Union([Type.String(), Type.Undefined()]),

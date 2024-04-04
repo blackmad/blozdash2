@@ -47,15 +47,18 @@ const App = () => {
   console.log(data);
 
   const groups = _.groupBy(data, (entry) => entry.group);
+  const sortedGroups = _.sortBy(groups, (entries) =>
+    _.min(entries.map((entry) => entry.sortOrder)),
+  );
 
   return (
     <>
-      {_.map(groups, (entries, groupName) => {
+      {_.map(sortedGroups, (entries, groupName) => {
         return (
           <>
-            <div className="text-3xl">{groupName}</div>
+            <div className="text-3xl">{entries[0].group}: </div>
             <div className="grid grid-cols-1 md:grid-cols-3">
-              {entries.map((entry) => (
+              {_.sortBy(entries, (entry) => entry.sortOrder).map((entry) => (
                 <CardDispatcher key={entry.id} entry={entry} />
               ))}
             </div>

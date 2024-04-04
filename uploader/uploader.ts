@@ -58,7 +58,7 @@ function notionResponseToDataEntries(
   const simplifiedDicts = simplifyNotionResponseToPropertyNameDict(response);
 
   return simplifiedDicts
-    .map((simplifiedDict) => {
+    .map((simplifiedDict, i) => {
       const { cardType } = simplifiedDict.properties;
       if (!isValidCardType(cardType)) {
         console.warn(`Invalid card type: ${cardType}`);
@@ -71,6 +71,7 @@ function notionResponseToDataEntries(
         subtitle: '',
         group: simplifiedDict.properties.Group,
         tag: simplifiedDict.properties.Tag,
+        sortOrder: i * -1,
       };
 
       if (cardType === 'image') {
