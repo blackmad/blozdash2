@@ -1,4 +1,3 @@
-- implement s3 image upload
 - implement re-parse of new data format
 - implement grouping
 - implement xxx hiding

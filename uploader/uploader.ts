@@ -1,7 +1,3 @@
-// TODO
-// massage this into types
-// upload images to s3
-
 import unreachable from 'ts-unreachable';
 
 import { Client, LogLevel } from '@notionhq/client';
@@ -12,6 +8,7 @@ import {
 import AWS from 'aws-sdk';
 import { isNotNull, isNotUndefined } from 'typesafe-utils';
 import { Value } from '@sinclair/typebox/value';
+import _ from 'lodash';
 import {
   DataEntry,
   isValidCardType,
@@ -180,7 +177,7 @@ async function uploadFile({
 }: {
   url: string;
   filename: string;
-}): Promise<void> {
+}): Promise<string> {
   // Download file from url and upload it to s3
   const response = await fetch(url);
   const buffer = Buffer.from(await response.arrayBuffer());
@@ -193,10 +190,24 @@ async function uploadFile({
     ACL: 'public-read',
   };
   const s3 = new AWS.S3();
+
+  // check if the file exists first
+  try {
+    const exists = await s3
+      .headObject({ Bucket: BucketName, Key: filename })
+      .promise();
+    if (exists) {
+      console.log(`File ${filename} already exists in ${BucketName}.`);
+      return `https://${BucketName}.s3.amazonaws.com/${filename}`;
+    }
+  } catch {
+    // file does not exist
+  }
+
   const s3Response = await s3.upload(params).promise();
   console.log(s3Response.Location);
-
   console.log(`File ${filename} has been uploaded to ${BucketName}.`);
+  return s3Response.Location;
 }
 
 async function readNotionDatabase(databaseId: string): Promise<any> {
@@ -212,17 +223,20 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
 
   const fixedJson = notionResponseToDataEntries(response);
   // go through everything and upload to s3
-  // for (const page of fixedJson) {
-  //   const images = page.properties.Images;
-  //   for (const item of images) {
-  //     if (item.url) {
-  //       await uploadFile({
-  //         url: item.url,
-  //         filename: item.name,
-  //       });
-  //     }
-  //   }
-  // }
+  for (const page of fixedJson) {
+    if (page.cardType === 'image') {
+      const { url } = page.data;
+      const extension = url.split('?')[0].split('.').pop() ?? 'jpg';
+      const filename = `${page.id}.${extension}`;
+
+      const s3Location = await uploadFile({
+        url,
+        filename,
+      });
+
+      page.data.url = s3Location;
+    }
+  }
 
   console.log(JSON.stringify(fixedJson, null, 2));
 
@@ -233,20 +247,23 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
   return fixedJson;
 }
 
-async function uploadDataToS3(data: any) {
-  // upload json
-  const params = {
-    Bucket: BucketName,
-    Key: 'data.json',
-    Body: Buffer.from(JSON.stringify(data, null, 2), 'utf-8'),
-    // public perms
-    ACL: 'public-read',
-    // add json content type
-    ContentType: 'application/json',
-  };
-  const s3 = new AWS.S3();
-  const s3Response = await s3.upload(params).promise();
-  console.log(s3Response.Location);
+async function uploadDataToS3(data: DataEntry[]) {
+  const groupedData = _.groupBy(data, (entry) => entry.group ?? 'data');
+
+  for (const [group, entries] of Object.entries(groupedData)) {
+    const params = {
+      Bucket: BucketName,
+      Key: `${group}.json`,
+      Body: Buffer.from(JSON.stringify(entries, null, 2), 'utf-8'),
+      // public perms
+      ACL: 'public-read',
+      // add json content type
+      ContentType: 'application/json',
+    };
+    const s3 = new AWS.S3();
+    const s3Response = await s3.upload(params).promise();
+    console.log(s3Response.Location);
+  }
 }
 
 async function readAndUpload() {
