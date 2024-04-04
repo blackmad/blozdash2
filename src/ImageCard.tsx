@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseCard from './BaseCard';
+import BaseCard, { BaseImageCard } from './BaseCard';
 import { ImageData } from './App';
 
 export const ImageCard = ({
@@ -9,9 +9,5 @@ export const ImageCard = ({
   title: string;
   image: ImageData;
 }) => {
-  return (
-    <BaseCard backgroundColor="black">
-      <img src={image.url} alt={title} />
-    </BaseCard>
-  );
+  return <BaseImageCard imgSrc={image.url} alt={title} />;
 };

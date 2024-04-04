@@ -3,6 +3,9 @@ import React, { useEffect } from 'react';
 import './app.css';
 import { DateCard } from './DateCard';
 import { ImageCard } from './ImageCard';
+import BaseCard from './BaseCard';
+import { AirportCard } from './AirportCard';
+import { NumberCard } from './NumberCard';
 
 // import { ThemeProvider } from 'styled-components';
 // import defaultTheme from './styles/theme/defaultTheme';
@@ -27,6 +30,7 @@ type DataEntry = {
     Number?: number;
     Unit?: string;
     Date?: DateData;
+    AirportCodes?: string;
   };
 };
 
@@ -42,6 +46,18 @@ const CardDispatcher = ({ data }: { data: DataEntry }) => {
   }
   if (data.properties.Images.length > 0) {
     return <ImageCard title={data.title} image={data.properties.Images[0]} />;
+  }
+  if (data.properties.Number) {
+    return (
+      <NumberCard
+        title={data.title}
+        number={data.properties.Number}
+        unit={data.properties.Unit}
+      />
+    );
+  }
+  if (data.properties.AirportCodes) {
+    return <AirportCard airportCodes={data.properties.AirportCodes} />;
   }
 
   return null;
