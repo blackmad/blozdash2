@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface BaseCardProps {
-  title: string;
-  content: string;
+  children: ReactNode;
+  backgroundColor: string;
 }
 
-const BaseCard: React.FC<BaseCardProps> = ({ title, content }) => {
+const BaseCard: React.FC<BaseCardProps> = ({ children, backgroundColor }) => {
   return (
-    <div className="m-4 p-4 border border-gray-300">
-      <h2 className="text-3xl font-bold underline">{title}</h2>
-      <p className="text-gray-700">{content}</p>
+    <div
+      className="m-4 p-4 border border-gray-300"
+      style={{
+        backgroundColor,
+      }}
+    >
+      {children}
     </div>
   );
 };
