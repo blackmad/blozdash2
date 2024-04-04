@@ -1,17 +1,24 @@
 import { Type, Static, TSchema } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
 
+export const UntypedCommonProperties = Type.Object({
+  id: Type.String(),
+  title: Type.String(),
+  group: Type.Union([Type.String(), Type.Undefined()]),
+});
+export type UntypedCommonProperties = Static<typeof UntypedCommonProperties>;
+
 export const CommonProperties = <T extends TSchema, CardTypeT extends TSchema>(
   T: T,
   cardType: CardTypeT,
 ) =>
-  Type.Object({
-    id: Type.String(),
-    title: Type.String(),
-    group: Type.Union([Type.String(), Type.Undefined()]),
-    data: T,
-    cardType,
-  });
+  Type.Intersect([
+    UntypedCommonProperties,
+    Type.Object({
+      data: T,
+      cardType,
+    }),
+  ]);
 
 /** ***** DATE CARD ****** */
 
@@ -27,7 +34,7 @@ export const DateDataEntry = CommonProperties(DateData, Type.Literal('date'));
 
 /** ***** IMAGE CARD ****** */
 
-export type ImageData = Static<typeof DateData>;
+export type ImageData = Static<typeof ImageData>;
 export const ImageData = Type.Object({
   name: Type.String(),
   url: Type.String(),

@@ -11,7 +11,19 @@ import {
 } from '@notionhq/client/build/src/api-endpoints';
 import AWS from 'aws-sdk';
 import { isNotNull, isNotUndefined } from 'typesafe-utils';
-import { DataEntry, isValidCardType } from '../src/data';
+import { Value } from '@sinclair/typebox/value';
+import {
+  DataEntry,
+  isValidCardType,
+  ImageData,
+  ImageDataEntry,
+  DateDataEntry,
+  TripData,
+  TripDataEntry,
+  CountryListData,
+  CountryListDataEntry,
+  UntypedCommonProperties,
+} from '../src/data';
 
 // firebase functions:config:set notion.key="" google.bucket_name="blozdash"
 
@@ -56,14 +68,70 @@ function notionResponseToDataEntries(
         return;
       }
 
-      if (cardType === 'image') {
-      } else {
-        unreachable(cardType);
-      }
+      const commonProperties: UntypedCommonProperties = {
+        id: simplifiedDict.id,
+        title: simplifiedDict.title,
+        group: simplifiedDict.properties.group,
+      };
 
-      return undefined;
+      if (cardType === 'image') {
+        const imageData: ImageData = {
+          name: simplifiedDict.properties.Images[0]?.name,
+          url: simplifiedDict.properties.Images[0]?.url,
+        };
+        const cardDataEntry: ImageDataEntry = {
+          ...commonProperties,
+          data: imageData,
+          cardType,
+        };
+        return cardDataEntry;
+      }
+      if (cardType === 'date') {
+        const dateData = simplifiedDict.properties.Date;
+        const cardDataEntry: DateDataEntry = {
+          ...commonProperties,
+          data: {
+            start: dateData?.start,
+            end: dateData?.end,
+            time_zone: dateData?.time_zone,
+          },
+          cardType,
+        };
+        return cardDataEntry;
+      }
+      if (cardType === 'trip') {
+        const tripData: TripData = {
+          airportCodes: simplifiedDict.properties.AirportCodes,
+        };
+        const cardDataEntry: TripDataEntry = {
+          ...commonProperties,
+          data: tripData,
+          cardType,
+        };
+        return cardDataEntry;
+      }
+      if (cardType === 'countrylist') {
+        const countryListData: CountryListData = {
+          countryCodes: simplifiedDict.properties.CountryCodes,
+        };
+        const countryListDataEntry: CountryListDataEntry = {
+          ...commonProperties,
+          data: countryListData,
+          cardType,
+        };
+        return countryListDataEntry;
+      }
+      return unreachable(cardType);
     })
-    .filter(isNotUndefined);
+    .filter(isNotUndefined)
+    .filter((dataEntry) => {
+      const isValid = Value.Check(DataEntry, dataEntry);
+      if (!isValid) {
+        console.warn('Invalid data entry:', dataEntry);
+        return false;
+      }
+      return true;
+    });
 }
 
 function simplifyNotionResponseToPropertyNameDict(
