@@ -1,9 +1,17 @@
+// TODO
+// massage this into types
+// upload images to s3
+
+import unreachable from 'ts-unreachable';
+
 import { Client, LogLevel } from '@notionhq/client';
 import {
   PageObjectResponse,
   QueryDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import AWS from 'aws-sdk';
+import { isNotNull, isNotUndefined } from 'typesafe-utils';
+import { DataEntry, isValidCardType } from '../src/data';
 
 // firebase functions:config:set notion.key="" google.bucket_name="blozdash"
 
@@ -34,6 +42,29 @@ type SimplifiedPage = {
   title: string;
   properties: Record<string, any>;
 };
+
+function notionResponseToDataEntries(
+  response: QueryDatabaseResponse,
+): DataEntry[] {
+  const simplifiedDicts = simplifyNotionResponseToPropertyNameDict(response);
+
+  return simplifiedDicts
+    .map((simplifiedDict) => {
+      const { cardType } = simplifiedDict.properties;
+      if (!isValidCardType(cardType)) {
+        console.warn(`Invalid card type: ${cardType}`);
+        return;
+      }
+
+      if (cardType === 'image') {
+      } else {
+        unreachable(cardType);
+      }
+
+      return undefined;
+    })
+    .filter(isNotUndefined);
+}
 
 function simplifyNotionResponseToPropertyNameDict(
   response: QueryDatabaseResponse,
@@ -66,13 +97,6 @@ function simplifyNotionResponseToPropertyNameDict(
         });
       }
     }
-
-    // clean non-truthy values from properties
-    Object.keys(properties).forEach((key) => {
-      if (!properties[key]) {
-        delete properties[key];
-      }
-    });
 
     return {
       id: page.id,
@@ -110,24 +134,27 @@ async function uploadFile({
 async function readNotionDatabase(databaseId: string): Promise<any> {
   const response = await notion.databases.query({
     database_id: databaseId,
+    // sorts: [
+    //   {
+    //     property: 'Last ordered',
+    //     direction: 'ascending',
+    //   },
+    // ],
   });
 
-  // Convert the response to JSON
-  // const json = JSON.stringify(response, null, 2);
-
-  const fixedJson = simplifyNotionResponseToPropertyNameDict(response);
+  const fixedJson = notionResponseToDataEntries(response);
   // go through everything and upload to s3
-  for (const page of fixedJson) {
-    const images = page.properties.Images;
-    for (const item of images) {
-      if (item.url) {
-        await uploadFile({
-          url: item.url,
-          filename: item.name,
-        });
-      }
-    }
-  }
+  // for (const page of fixedJson) {
+  //   const images = page.properties.Images;
+  //   for (const item of images) {
+  //     if (item.url) {
+  //       await uploadFile({
+  //         url: item.url,
+  //         filename: item.name,
+  //       });
+  //     }
+  //   }
+  // }
 
   console.log(JSON.stringify(fixedJson, null, 2));
 

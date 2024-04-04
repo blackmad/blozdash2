@@ -1354,6 +1354,14 @@
     "@types/node-fetch" "^2.5.10"
     node-fetch "^2.6.1"
 
+"@nwpr/airport-codes@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/@nwpr/airport-codes/-/airport-codes-3.0.3.tgz"
+  integrity sha512-8tWoRdHixVaI7rg77JJxTROqEJ6DwDmbO2Iu7fNG4gxb1aSlmkH5o+ohc6zz6j1Qteu7l5VFH7oU/sGTxyY1aw==
+  dependencies:
+    https "^1.0.0"
+    papaparse "^5.4.1"
+
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
 
@@ -1406,6 +1414,13 @@
 
 "@sinclair/typebox@^0.24.1":
   version "0.24.51"
+  resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.24.51.tgz"
+  integrity sha512-1P1OROm/rdubP5aFDSZQILU0vrLCJ4fvHt6EoqHEM+2D/G5MK3bIaymUKLit8Js9gbns5UyJnkP/TZROLw4tUA==
+
+"@sinclair/typebox@^0.32.20":
+  version "0.32.20"
+  resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.32.20.tgz"
+  integrity sha512-ziK497ILSIYMxD/thl496idIb03IZPlha04itLQu1xAFQbumWZ+Dj4PMMCkDRpAYhvVSdmRlTjGu2B2MA5RplQ==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.6"
@@ -4631,6 +4646,11 @@ https-proxy-agent@^5.0.0:
     agent-base "6"
     debug "4"
 
+https@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/https/-/https-1.0.0.tgz"
+  integrity sha512-4EC57ddXrkaF0x83Oj8sM6SLQHAWXw90Skqu2M4AEWENZ3F02dFJE/GARA8igO79tcgYqGrD7ae4f5L3um2lgg==
+
 human-signals@^2.1.0:
   version "2.1.0"
 
@@ -6115,6 +6135,11 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/p-try/-/p-try-2.2.0.tgz"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
+
+papaparse@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.npmjs.org/papaparse/-/papaparse-5.4.1.tgz"
+  integrity sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==
 
 param-case@^3.0.4:
   version "3.0.4"
@@ -7912,6 +7937,11 @@ tryer@^1.0.1:
 ts-interface-checker@^0.1.9:
   version "0.1.13"
 
+ts-unreachable@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/ts-unreachable/-/ts-unreachable-2.0.0.tgz"
+  integrity sha512-UuIQYGKgI1LIH6dKbNwhZeYUD3EVnOLtEJeZBzELCTzUnyYRSo78t766UCuyVFRSMaD8QOIdHeOXoS7hcyphBw==
+
 tsconfig-paths@^3.14.1, tsconfig-paths@^3.15.0:
   version "3.15.0"
   dependencies:
@@ -8011,6 +8041,11 @@ typedarray-to-buffer@^3.1.5:
   integrity sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
   dependencies:
     is-typedarray "^1.0.0"
+
+typesafe-utils@^1.16.2:
+  version "1.16.2"
+  resolved "https://registry.npmjs.org/typesafe-utils/-/typesafe-utils-1.16.2.tgz"
+  integrity sha512-5Ej1sd5V541LPxlJEs4JKpsmF0zvMcwakXJ/s2N9SpdYAEr6CQcgr2COF350nxaO1FSbHYfL+tEKBcMcLDrdOQ==
 
 "typescript@^3.2.1 || ^4", typescript@^4.0.3, "typescript@>= 2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta":
   version "4.9.5"

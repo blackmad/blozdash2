@@ -31,6 +31,7 @@ type DataEntry = {
     Unit?: string;
     Date?: DateData;
     AirportCodes?: string;
+    CountryCodes?: string;
   };
 };
 
@@ -57,7 +58,12 @@ const CardDispatcher = ({ data }: { data: DataEntry }) => {
     );
   }
   if (data.properties.AirportCodes) {
-    return <AirportCard airportCodes={data.properties.AirportCodes} />;
+    return (
+      <AirportCard
+        title={data.title}
+        airportCodes={data.properties.AirportCodes}
+      />
+    );
   }
 
   return null;
