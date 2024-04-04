@@ -1,17 +1,16 @@
 import React from 'react';
 import BaseCard from './BaseCard';
+import { NumberDataEntry } from './data';
 
 export const NumberCard = ({
-  title,
-  number,
-  unit,
+  entry,
   extraClasses,
 }: {
-  title: string;
-  number: number;
-  unit: string | undefined;
+  entry: NumberDataEntry;
   extraClasses?: string;
 }) => {
+  const { title, data } = entry;
+  const { number, unit } = data;
   return (
     <BaseCard extraClasses={extraClasses}>
       <h2 className="text-3xl font-bold">{title}</h2>

@@ -4,6 +4,8 @@ import { Value } from '@sinclair/typebox/value';
 export const UntypedCommonProperties = Type.Object({
   id: Type.String(),
   title: Type.String(),
+  tag: Type.Union([Type.String(), Type.Undefined()]),
+  subtitle: Type.Union([Type.String(), Type.Undefined()]),
   group: Type.Union([Type.String(), Type.Undefined()]),
 });
 export type UntypedCommonProperties = Static<typeof UntypedCommonProperties>;
@@ -46,6 +48,20 @@ export const ImageDataEntry = CommonProperties(
   Type.Literal('image'),
 );
 
+/** ***** NUMBER CARD ****** */
+
+export type NumberData = Static<typeof NumberData>;
+export const NumberData = Type.Object({
+  number: Type.Number(),
+  unit: Type.Union([Type.String(), Type.Undefined()]),
+});
+
+export type NumberDataEntry = Static<typeof NumberDataEntry>;
+export const NumberDataEntry = CommonProperties(
+  NumberData,
+  Type.Literal('number'),
+);
+
 /** ***** TRIP CARD ****** */
 
 export type TripData = Static<typeof TripData>;
@@ -77,6 +93,7 @@ export const DataEntry = Type.Union([
   ImageDataEntry,
   TripDataEntry,
   CountryListDataEntry,
+  NumberDataEntry,
 ]);
 
 export const CardTypes = Type.Index(DataEntry, ['cardType']);

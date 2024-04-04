@@ -1,13 +1,9 @@
 import React from 'react';
 import BaseCard, { BaseImageCard } from './BaseCard';
-import { ImageData } from './App';
+import { ImageDataEntry } from './data';
 
-export const ImageCard = ({
-  image,
-  title,
-}: {
-  title: string;
-  image: ImageData;
-}) => {
-  return <BaseImageCard imgSrc={image.url} alt={title} />;
+export const ImageCard = ({ entry }: { entry: ImageDataEntry }) => {
+  const { data, title } = entry;
+  const { url } = data;
+  return <BaseImageCard imgSrc={url} alt={title} />;
 };

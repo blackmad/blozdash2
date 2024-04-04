@@ -1,17 +1,10 @@
 import React from 'react';
 import BaseCard from './BaseCard';
-import { DateData } from './App';
+import { DateDataEntry } from './data';
 
-export const DateCard = ({
-  dateData,
-  title,
-  subtitle,
-}: {
-  dateData: DateData;
-  title: string;
-  subtitle: string;
-}) => {
-  const parsedStartDate = new Date(dateData.start);
+export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
+  const { title, subtitle } = entry;
+  const parsedStartDate = new Date(entry.data.start);
 
   // Calculate relative time since the event
   const now = new Date();

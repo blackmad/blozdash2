@@ -68,7 +68,9 @@ function notionResponseToDataEntries(
       const commonProperties: UntypedCommonProperties = {
         id: simplifiedDict.id,
         title: simplifiedDict.title,
-        group: simplifiedDict.properties.group,
+        subtitle: '',
+        group: simplifiedDict.properties.Group,
+        tag: simplifiedDict.properties.Tag,
       };
 
       if (cardType === 'image') {
@@ -148,6 +150,7 @@ function simplifyNotionResponseToPropertyNameDict(
       } else if (value.type === 'number') {
         properties[key] = value.number;
       } else if (value.type === 'select') {
+        console.log(value.select?.name);
         properties[key] = value.select?.name;
       } else if (value.type === 'date') {
         properties[key] = value.date;
@@ -238,7 +241,7 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
     }
   }
 
-  console.log(JSON.stringify(fixedJson, null, 2));
+  // console.log(JSON.stringify(fixedJson, null, 2));
 
   // Write the JSON to a file
   // require('fs').writeFileSync('output.json', json);
@@ -248,9 +251,9 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
 }
 
 async function uploadDataToS3(data: DataEntry[]) {
-  const groupedData = _.groupBy(data, (entry) => entry.group ?? 'data');
+  const groupedByTagData = _.groupBy(data, (entry) => entry.tag ?? 'data');
 
-  for (const [group, entries] of Object.entries(groupedData)) {
+  for (const [group, entries] of Object.entries(groupedByTagData)) {
     const params = {
       Bucket: BucketName,
       Key: `${group}.json`,

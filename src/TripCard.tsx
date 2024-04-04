@@ -2,24 +2,24 @@ import React from 'react';
 import { airports } from '@nwpr/airport-codes';
 import { BaseImageCard } from './BaseCard';
 import { NumberCard } from './NumberCard';
+import { TripData, TripDataEntry } from './data';
 
-export const AirportCard = ({
-  title,
-  airportCodes: _airportCodes,
-}: {
-  title: string;
-  airportCodes: string;
-}) => {
-  const airportCodes = _airportCodes.split('-');
+export const TripCard = ({ entry }: { entry: TripDataEntry }) => {
+  const { airportCodes } = entry.data;
+
   if (airportCodes.length !== 2) {
     return <div>Invalid airport codes - should have 2, got{airportCodes}</div>;
   }
 
   const airport1Data = airports.find(
-    (airport) => airport.iata?.toLowerCase() === airportCodes[0].toLowerCase(),
+    (airport) =>
+      airport.iata?.toLowerCase() === airportCodes[0].toLowerCase() ||
+      airport.icao?.toLowerCase() === airportCodes[0].toLowerCase(),
   );
   const airport2Data = airports.find(
-    (airport) => airport.iata?.toLowerCase() === airportCodes[1].toLowerCase(),
+    (airport) =>
+      airport.iata?.toLowerCase() === airportCodes[1].toLowerCase() ||
+      airport.icao?.toLowerCase() === airportCodes[1].toLowerCase(),
   );
 
   if (!airport1Data) {
@@ -67,7 +67,17 @@ export const AirportCard = ({
   )}%26MS%3Dwls%26MR%3D600%26MX%3D720x360%26PM%3D*`;
   return (
     <>
-      <NumberCard title={title} number={distance} unit="km" />
+      <NumberCard
+        entry={{
+          ...entry,
+          cardType: 'number',
+          id: `${entry.id}-number`,
+          data: {
+            number: distance,
+            unit: 'km',
+          },
+        }}
+      />
       <BaseImageCard imgSrc={src} extraClasses="col-span-2" />
     </>
   );
