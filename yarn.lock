@@ -1326,6 +1326,11 @@
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.5"
 
+"@mobily/ts-belt@^3.13.1":
+  version "3.13.1"
+  resolved "https://registry.npmjs.org/@mobily/ts-belt/-/ts-belt-3.13.1.tgz"
+  integrity sha512-K5KqIhPI/EoCTbA6CGbrenM9s41OouyK8A03fGJJcla/zKucsgLbz8HNbeseoLarRPgyWJsUyCYqFhI7t3Ra9Q==
+
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
   dependencies:
@@ -1775,6 +1780,13 @@
   version "16.9.24"
   dependencies:
     "@types/react" "^16"
+
+"@types/react-timeago@^4.1.7":
+  version "4.1.7"
+  resolved "https://registry.npmjs.org/@types/react-timeago/-/react-timeago-4.1.7.tgz"
+  integrity sha512-ogD4Ror/hDG+pQggCX+TgPgJ8W2jeeUxsgNU485Qpm0Ma+E2TND2EJuKwK5+sxlkDXDEgsHradO0zWBkTgLzNg==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react@*", "@types/react@^16", "@types/react@^16.9.53":
   version "16.14.60"
@@ -5023,6 +5035,13 @@ jake@^10.8.5:
     filelist "^1.0.4"
     minimatch "^3.1.2"
 
+javascript-time-ago@^2.3.7, javascript-time-ago@^2.5.9:
+  version "2.5.9"
+  resolved "https://registry.npmjs.org/javascript-time-ago/-/javascript-time-ago-2.5.9.tgz"
+  integrity sha512-pQ8mNco/9g9TqWXWWjP0EWl6i/lAQScOyEeXy5AB+f7MfLSdgyV9BJhiOD1zrIac/lrxPYOWNbyl/IW8CW5n0A==
+  dependencies:
+    relative-time-format "^1.1.6"
+
 jest-changed-files@^27.5.1:
   version "27.5.1"
   dependencies:
@@ -5769,6 +5788,11 @@ memfs@^3.1.2, memfs@^3.4.3:
   version "3.5.3"
   dependencies:
     fs-monkey "^1.0.4"
+
+memoize-one@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npmjs.org/memoize-one/-/memoize-one-6.0.0.tgz"
+  integrity sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==
 
 merge-descriptors@1.0.1:
   version "1.0.1"
@@ -6864,7 +6888,7 @@ react-dev-utils@^12.0.1:
     strip-ansi "^6.0.1"
     text-table "^0.2.0"
 
-react-dom@*, react-dom@^17.0.1, "react-dom@>= 16.8.0":
+react-dom@*, react-dom@^17.0.1, "react-dom@>= 16.8.0", react-dom@>=0.16.8:
   version "17.0.2"
   dependencies:
     loose-envify "^1.1.0"
@@ -6949,7 +6973,21 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react@*, react@^17.0.1, "react@>= 16", "react@>= 16.8.0", react@17.0.2:
+react-time-ago@^7.3.1:
+  version "7.3.1"
+  resolved "https://registry.npmjs.org/react-time-ago/-/react-time-ago-7.3.1.tgz"
+  integrity sha512-c6QKSRrnIhZiEbOa2PXdh1InNYpqX3wwXA0fuOFX4r/C2hdt5hNvjvKXbKbGWXAeumMi9DoS3oGPboEpgccnOQ==
+  dependencies:
+    memoize-one "^6.0.0"
+    prop-types "^15.8.1"
+    raf "^3.4.1"
+
+react-timeago@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/react-timeago/-/react-timeago-7.2.0.tgz"
+  integrity sha512-2KsBEEs+qRhKx/kekUVNSTIpop3Jwd7SRBm0R4Eiq3mPeswRGSsftY9FpKsE/lXLdURyQFiHeHFrIUxLYskG5g==
+
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", react@^17.0.1, "react@>= 16", "react@>= 16.8.0", react@>=0.16.8, react@17.0.2:
   version "17.0.2"
   dependencies:
     loose-envify "^1.1.0"
@@ -7059,6 +7097,11 @@ relateurl@^0.2.7:
   version "0.2.7"
   resolved "https://registry.npmjs.org/relateurl/-/relateurl-0.2.7.tgz"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
+
+relative-time-format@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.npmjs.org/relative-time-format/-/relative-time-format-1.1.6.tgz"
+  integrity sha512-aCv3juQw4hT1/P/OrVltKWLlp15eW1GRcwP1XdxHrPdZE9MtgqFpegjnTjLhi2m2WI9MT/hQQtE+tjEWG1hgkQ==
 
 renderkid@^3.0.0:
   version "3.0.0"

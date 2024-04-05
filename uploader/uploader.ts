@@ -71,7 +71,7 @@ function notionResponseToDataEntries(
         subtitle: '',
         group: simplifiedDict.properties.Group,
         tag: simplifiedDict.properties.Tag,
-        sortOrder: i * -1,
+        sortOrder: simplifiedDict.properties.SortOrder ?? -1 * i,
       };
 
       if (cardType === 'image') {
@@ -224,6 +224,8 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
     //   },
     // ],
   });
+
+  console.log(JSON.stringify(response, null, 2));
 
   const fixedJson = notionResponseToDataEntries(response);
   // go through everything and upload to s3

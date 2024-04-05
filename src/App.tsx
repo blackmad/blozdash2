@@ -36,7 +36,10 @@ const App = () => {
   const [data, setData] = React.useState<DataEntry[]>([]);
 
   useEffect(() => {
-    fetch('https://6631e610f0384c4c91ef678932b88097.s3.amazonaws.com/data.json')
+    const file = window.location.search.substring(1) || 'data';
+    fetch(
+      `https://6631e610f0384c4c91ef678932b88097.s3.amazonaws.com/${file}.json`,
+    )
       .then((res) => res.json())
       .then((newData) => {
         console.log({ newData });
@@ -47,16 +50,21 @@ const App = () => {
   console.log(data);
 
   const groups = _.groupBy(data, (entry) => entry.group);
-  const sortedGroups = _.sortBy(groups, (entries) =>
-    _.min(entries.map((entry) => entry.sortOrder)),
-  );
+
+  const sortedGroupKeys = _.sortBy(Object.keys(groups), (group) => {
+    return group;
+  });
 
   return (
     <>
-      {_.map(sortedGroups, (entries, groupName) => {
+      {_.map(sortedGroupKeys, (groupName) => {
+        const entries = groups[groupName];
+        const realGroupName = groupName.split('-')[1] || groupName;
         return (
           <>
-            <div className="text-3xl">{entries[0].group}: </div>
+            {sortedGroupKeys.length > 1 && (
+              <div className="text-3xl">{realGroupName}: </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-3">
               {_.sortBy(entries, (entry) => entry.sortOrder).map((entry) => (
                 <CardDispatcher key={entry.id} entry={entry} />
