@@ -5,7 +5,6 @@ import unreachable from 'ts-unreachable';
 import _ from 'lodash';
 import { DateCard } from './DateCard';
 import { ImageCard } from './ImageCard';
-import BaseCard from './BaseCard';
 import { TripCard } from './TripCard';
 import { NumberCard } from './NumberCard';
 import { DataEntry } from './data';
