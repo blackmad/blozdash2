@@ -2,13 +2,7 @@ import React from 'react';
 import BaseCard from './BaseCard';
 import { NumberDataEntry } from './data';
 
-export const NumberCard = ({
-  entry,
-  extraClasses,
-}: {
-  entry: NumberDataEntry;
-  extraClasses?: string;
-}) => {
+export const NumberCard = ({ entry }: { entry: NumberDataEntry }) => {
   const { title, subtitle, data } = entry;
   const { number, unit } = data;
   return (

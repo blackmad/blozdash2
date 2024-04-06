@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseCard, { BaseImageCard } from './BaseCard';
+import { BaseImageCard } from './BaseCard';
 import { ImageDataEntry } from './data';
 
 export const ImageCard = ({ entry }: { entry: ImageDataEntry }) => {

@@ -49,7 +49,7 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
 
 export default BaseCard;
 
-const LightTextColorMap: Record<string, string> = {
+const _LightTextColorMap: Record<string, string> = {
   default: '#37352F',
   grey: '#787774',
   brown: '#9F6B53',

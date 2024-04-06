@@ -40,10 +40,9 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('DateCard rendered');
       const now = new Date();
       const diff = parsedStartDate.getTime() - now.getTime();
-      const formatter = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+      // const formatter = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
       // build a string of months days hours minutes
 

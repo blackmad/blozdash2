@@ -2,7 +2,7 @@ import React from 'react';
 import { airports } from '@nwpr/airport-codes';
 import { BaseImageCard } from './BaseCard';
 import { NumberCard } from './NumberCard';
-import { TripData, TripDataEntry, TripWithDistanceDataEntry } from './data';
+import { TripDataEntry, TripWithDistanceDataEntry } from './data';
 
 export const TripCard = ({
   entry,
