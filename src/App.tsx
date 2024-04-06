@@ -57,27 +57,48 @@ const App = () => {
   return (
     <div className="flex justify-center align-middle">
       <div className="w-full">
-        {_.map(sortedGroupKeys, (groupName) => {
+        {_.map(sortedGroupKeys, (groupName, i) => {
           const entries = groups[groupName];
           const realGroupName = groupName.split('-')[1] || groupName;
+
+          const nextColor = groups[sortedGroupKeys[i + 1]]?.[0]?.group?.color;
+
           return (
-            <div
-              className="p-8"
-              style={{
-                backgroundColor: getNotionLightBackgroundColor(
-                  entries[0].group?.color ?? 'gray',
-                ),
-              }}
-            >
-              {sortedGroupKeys.length > 1 && (
-                <div className="text-5xl pb-4">{realGroupName}</div>
-              )}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {_.sortBy(entries, (entry) => entry.sortOrder).map((entry) => (
-                  <CardDispatcher key={entry.id} entry={entry} />
-                ))}
+            <>
+              <div
+                className="p-8"
+                style={{
+                  backgroundColor: getNotionLightBackgroundColor(
+                    entries[0].group?.color ?? 'gray',
+                  ),
+                }}
+              >
+                {sortedGroupKeys.length > 1 && (
+                  <div className="text-5xl" style={{ paddingBottom: 30 }}>
+                    {realGroupName}
+                  </div>
+                )}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {_.sortBy(entries, (entry) => entry.sortOrder).map(
+                    (entry) => (
+                      <CardDispatcher key={entry.id} entry={entry} />
+                    ),
+                  )}
+                </div>
               </div>
-            </div>
+              {nextColor && (
+                <div
+                  style={{
+                    height: 40,
+                    background: `linear-gradient(180deg, 
+                    ${getNotionLightBackgroundColor(
+                      entries[0].group?.color ?? 'gray',
+                    )}, 
+                    ${getNotionLightBackgroundColor(nextColor)})`,
+                  }}
+                ></div>
+              )}
+            </>
           );
         })}
       </div>

@@ -43,7 +43,6 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
           const result = `${time}${timeString} `;
 
           diff %= interval;
-          console.log('new diff', diff);
           return <span className={fontSizes.shift()}>{result}</span>;
         }
       })}
@@ -67,7 +66,7 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
       setNow(now);
       setIsPast(diff < 0);
     }, 1000);
-  });
+  }, []);
 
   return (
     <BaseCard entry={entry} extraClasses="p-4 flex flex-col  items-center">

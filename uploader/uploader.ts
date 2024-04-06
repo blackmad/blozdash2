@@ -90,12 +90,19 @@ function notionResponseToDataEntries(
       };
 
       if (cardType === 'image') {
-        const cardDataEntry: ImageDataEntry = {
-          ...commonProperties,
-          data: imageData,
-          cardType,
-        };
-        return cardDataEntry;
+        if (imageData) {
+          const cardDataEntry: ImageDataEntry = {
+            ...commonProperties,
+            data: imageData,
+            cardType,
+          };
+          return cardDataEntry;
+        } else {
+          console.error(
+            'No image data found for image card ' +
+              JSON.stringify(simplifiedDict),
+          );
+        }
       }
       if (cardType === 'date') {
         const dateData = simplifiedDict.properties.Date;
@@ -249,8 +256,6 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
     //   },
     // ],
   });
-
-  console.log(JSON.stringify(response, null, 2));
 
   const fixedJson = notionResponseToDataEntries(response);
   // go through everything and upload to s3

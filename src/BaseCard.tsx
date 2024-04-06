@@ -30,7 +30,7 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
   entry,
   extraClasses,
 }) => {
-  const { group } = entry;
+  const { group, backgroundImage } = entry;
   const backgroundColorName = group?.color;
   const backgroundColor = getNotionLightBackgroundColor(
     backgroundColorName ?? 'gray',
@@ -46,8 +46,9 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
     gradient: false,
     colorDifference: 0.25,
   });
+  const backdropFilterColor = backgroundColor;
 
-  console.log({ borderCss });
+  console.log({ borderCss, backgroundImage });
 
   return (
     <div
