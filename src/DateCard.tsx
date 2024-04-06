@@ -1,33 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import { D } from '@mobily/ts-belt';
 
 import BaseCard from './BaseCard';
 import { DateDataEntry } from './data';
+import _ from 'lodash';
 
-function dateDiffToString(date1: Date, date2: Date) {
+function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   let diff = Math.abs(date1.getTime() - date2.getTime());
 
+  const fontSizes = ['text-5xl', 'text-4xl', 'text-3xl', 'text-3xl'];
+
   const timeIntervals = {
-    mo: 1000 * 60 * 60 * 24 * 30,
-    d: 1000 * 60 * 60 * 24,
-    h: 1000 * 60 * 60,
-    m: 1000 * 60,
+    mo: {
+      interval: 1000 * 60 * 60 * 24 * 30,
+      fontSize: 'text-5xl',
+    },
+
+    d: {
+      interval: 1000 * 60 * 60 * 24,
+      fontSize: 'text-4xl',
+    },
+    h: {
+      interval: 1000 * 60 * 60,
+      fontSize: 'text-3xl',
+    },
+    m: { interval: 1000 * 60, fontSize: 'text-3xl' },
     // s: 1000,
   } as const;
 
-  let result = '';
+  return (
+    <div>
+      {_.map(timeIntervals, (intervalObj, timeString) => {
+        const { interval, fontSize } = intervalObj;
+        if (diff >= interval) {
+          const time = Math.floor(diff / interval);
+          // result += `${time} ${key}${time !== 1 ? 's' : ''} `;
+          // const result =
+          //   timeString === 'm' || timeString === 'h'
+          //     ? timeString === 'm'
+          //       ? `${time}`
+          //       : `${time}:`
+          //     : `${time}${timeString} `;
+          const result = `${time}${timeString} `;
 
-  const keys = D.keys(timeIntervals);
-  for (const key of keys) {
-    if (diff >= timeIntervals[key]) {
-      const time = Math.floor(diff / timeIntervals[key]);
-      // result += `${time} ${key}${time !== 1 ? 's' : ''} `;
-      result += `${time}${key} `;
-      diff %= timeIntervals[key];
-    }
-  }
-
-  return result.trim();
+          diff %= interval;
+          console.log('new diff', diff);
+          return <span className={fontSizes.shift()}>{result}</span>;
+        }
+      })}
+    </div>
+  );
 }
 
 export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
@@ -35,23 +56,15 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
   const parsedStartDate = new Date(entry.data.start);
 
   // Calculate relative time since the event
-  const [stringDiff, setStringDiff] = useState('');
+  const [now, setNow] = useState<Date>(new Date());
   const [isPast, setIsPast] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
       const now = new Date();
       const diff = parsedStartDate.getTime() - now.getTime();
-      // const formatter = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
-      // build a string of months days hours minutes
-
-      // const newStringDiff = formatter.format(
-      //   Math.round(diff / 86400000),
-      //   'day',
-      // );
-      const newStringDiff = dateDiffToString(now, parsedStartDate);
-      setStringDiff(newStringDiff);
+      setNow(now);
       setIsPast(diff < 0);
     }, 1000);
   });
@@ -71,7 +84,7 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
           {entry.data.preposition || (!isPast ? 'in' : 'for')}
         </p>
 
-        <p className="text-5xl">{stringDiff}</p>
+        <DateDiff date1={parsedStartDate} date2={now} />
       </div>
 
       <p className="text-gray-700 pt-4">
