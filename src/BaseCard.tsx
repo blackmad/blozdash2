@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { UntypedCommonProperties } from './data';
+import hexToRgba from 'hex-to-rgba';
 
 interface BaseCardProps {
   entry: UntypedCommonProperties;
@@ -27,11 +28,13 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
   entry,
   extraClasses,
 }) => {
-  const { group } = entry;
+  const { group, backgroundImage } = entry;
   const backgroundColorName = group?.color;
   const backgroundColor = getNotionLightBackgroundColor(
     backgroundColorName ?? 'grey',
   );
+
+  const backdropFilterColor = hexToRgba(backgroundColor, 0.7);
 
   return (
     <div
@@ -40,9 +43,24 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
         backgroundColor,
         // color: LightTextColorMap[backgroundColorName ?? 'default'],
         color: NotionLightTextColor,
+        backgroundImage: backgroundImage
+          ? `linear-gradient(${backdropFilterColor}, ${backdropFilterColor}), url(${backgroundImage.url})`
+          : undefined,
+        backgroundSize: 'cover',
       }}
     >
-      {children}
+      <div
+        className="h-full w-full flex flex-col align-middle items-center justify-center"
+        style={
+          {
+            // backdropFilter: backgroundImage
+            //   ? 'saturate(120%) blur(10px) brightness(80%) '
+            //   : undefined,
+          }
+        }
+      >
+        {children}
+      </div>
     </div>
   );
 };

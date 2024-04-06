@@ -71,6 +71,14 @@ function notionResponseToDataEntries(
         return;
       }
 
+      const imageData: ImageData | undefined = simplifiedDict.properties
+        .Images[0]
+        ? {
+            name: simplifiedDict.properties.Images[0].name,
+            url: simplifiedDict.properties.Images[0].url,
+          }
+        : undefined;
+
       const commonProperties: UntypedCommonProperties = {
         id: simplifiedDict.id,
         title: simplifiedDict.title,
@@ -78,13 +86,10 @@ function notionResponseToDataEntries(
         group: simplifiedDict.properties.Group || undefined,
         tag: simplifiedDict.properties.Tag || undefined,
         sortOrder: simplifiedDict.properties.SortOrder ?? -1 * i,
+        backgroundImage: imageData,
       };
 
       if (cardType === 'image') {
-        const imageData: ImageData = {
-          name: simplifiedDict.properties.Images[0]?.name,
-          url: simplifiedDict.properties.Images[0]?.url,
-        };
         const cardDataEntry: ImageDataEntry = {
           ...commonProperties,
           data: imageData,
@@ -249,8 +254,8 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
   const fixedJson = notionResponseToDataEntries(response);
   // go through everything and upload to s3
   for (const page of fixedJson) {
-    if (page.cardType === 'image') {
-      const { url } = page.data;
+    if (page.backgroundImage) {
+      const { url } = page.backgroundImage;
       const extension = url.split('?')[0].split('.').pop() ?? 'jpg';
       const filename = `${page.id}.${extension}`;
 
@@ -259,7 +264,10 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
         filename,
       });
 
-      page.data.url = s3Location;
+      page.backgroundImage.url = s3Location;
+      if (page.cardType === 'image') {
+        page.data.url = s3Location;
+      }
     }
   }
 

@@ -7,6 +7,12 @@ export const SelectEntry = Type.Object({
   id: Type.String(),
 });
 
+export type ImageData = Static<typeof ImageData>;
+export const ImageData = Type.Object({
+  name: Type.String(),
+  url: Type.String(),
+});
+
 export const UntypedCommonProperties = Type.Object({
   id: Type.String(),
   title: Type.String(),
@@ -14,6 +20,7 @@ export const UntypedCommonProperties = Type.Object({
   tag: Type.Union([SelectEntry, Type.Undefined()]),
   subtitle: Type.Union([Type.String(), Type.Undefined()]),
   group: Type.Union([SelectEntry, Type.Undefined()]),
+  backgroundImage: Type.Union([ImageData, Type.Undefined()]),
 });
 export type UntypedCommonProperties = Static<typeof UntypedCommonProperties>;
 
@@ -42,12 +49,6 @@ export type DateDataEntry = Static<typeof DateDataEntry>;
 export const DateDataEntry = CommonProperties(DateData, Type.Literal('date'));
 
 /** ***** IMAGE CARD ****** */
-
-export type ImageData = Static<typeof ImageData>;
-export const ImageData = Type.Object({
-  name: Type.String(),
-  url: Type.String(),
-});
 
 export type ImageDataEntry = Static<typeof ImageDataEntry>;
 export const ImageDataEntry = CommonProperties(
