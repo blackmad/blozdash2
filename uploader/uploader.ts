@@ -24,11 +24,9 @@ import {
   NumberDataEntry,
 } from '../src/data';
 
-// firebase functions:config:set notion.key="" google.bucket_name="blozdash"
-
-const NotionSecret = 'secret_kNK302VIEvHiruxUPWvJotTTIIYSN7WeBgDKMVjRhBB';
-const DatabaseId = '6631e610f0384c4c91ef678932b88097';
-const BucketName = '6631e610f0384c4c91ef678932b88097';
+const NotionSecret = process.env.NOTION_BLOZDASH_API_KEY;
+const DatabaseId = process.env.NOTION_BLOZDASH_DATABASE_ID;
+const BucketName = process.env.NOTION_BLOZDASH_DATABASE_ID;
 
 if (!NotionSecret) {
   throw new Error('Notion Secret is not set');
