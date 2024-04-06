@@ -105,6 +105,7 @@ function notionResponseToDataEntries(
             start: dateData?.start,
             end: dateData?.end,
             time_zone: dateData?.time_zone,
+            preposition: simplifiedDict.properties.Preposition,
           },
           cardType,
         };

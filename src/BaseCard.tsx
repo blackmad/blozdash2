@@ -40,7 +40,7 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
 
   return (
     <div
-      className={`h-72 ${extraClasses} shadow-md rounded-md`}
+      className={`h-72 shadow-md rounded-md`}
       style={{
         backgroundColor,
         // color: LightTextColorMap[backgroundColorName ?? 'default'],
@@ -53,7 +53,7 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
       }}
     >
       <div
-        className="h-full w-full flex flex-col align-middle items-center justify-center"
+        className={`h-full w-full flex flex-col align-middle items-center justify-center ${extraClasses}`}
         style={
           {
             // backdropFilter: backgroundImage

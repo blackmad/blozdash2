@@ -59,16 +59,21 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
   return (
     <BaseCard
       entry={entry}
-      extraClasses="p-4 flex flex-col justify-center items-center"
+      extraClasses="p-4 flex flex-col justify-between items-center"
     >
-      <h2 className="text-3xl font-bold pb-2 uppercase">{title}</h2>
-      <p className="text-gray-700 pb-2">{subtitle}</p>
+      <div>
+        <h2 className="text-3xl font-bold uppercase ">{title}</h2>
+        <p className="text-gray-700">{subtitle}</p>
+      </div>
 
-      <p className="text-2xl">{stringDiff}</p>
-      <p className="text-gray-700 pb-4">{isPast ? ' ago' : ' until then'}</p>
+      <p className="text-2xl">
+        {entry.data.preposition || (!isPast ? 'in' : 'for')}
+      </p>
+
+      <p className="text-5xl">{stringDiff}</p>
 
       <p className="text-gray-700">
-        <span className="">{parsedStartDate.toDateString()}</span>
+        <span className="text-2xl">{parsedStartDate.toDateString()}</span>
       </p>
     </BaseCard>
   );

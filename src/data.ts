@@ -43,6 +43,7 @@ export const DateData = Type.Object({
   start: Type.String(),
   end: Type.Union([Type.String(), Type.Null()]),
   time_zone: Type.Union([Type.String(), Type.Null()]),
+  preposition: Type.Union([Type.String(), Type.Null(), Type.Undefined()]),
 });
 
 export type DateDataEntry = Static<typeof DateDataEntry>;
