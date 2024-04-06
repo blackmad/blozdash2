@@ -13,7 +13,7 @@ export const BaseImageCard: React.FC<
       <img
         src={params.imgSrc}
         alt={params.alt}
-        className="h-full w-full object-contain"
+        className="h-full w-full object-cover"
       />
     </BaseCard>
   );
@@ -26,7 +26,7 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
 }) => {
   return (
     <div
-      className={`m-4 border border-gray-300 h-72 ${extraClasses}`}
+      className={`h-72 ${extraClasses}`}
       style={{
         backgroundColor,
       }}

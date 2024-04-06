@@ -61,16 +61,16 @@ const App = () => {
         const entries = groups[groupName];
         const realGroupName = groupName.split('-')[1] || groupName;
         return (
-          <>
+          <div className="m-4">
             {sortedGroupKeys.length > 1 && (
-              <div className="text-3xl">{realGroupName}: </div>
+              <div className="text-3xl">{realGroupName}</div>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
               {_.sortBy(entries, (entry) => entry.sortOrder).map((entry) => (
                 <CardDispatcher key={entry.id} entry={entry} />
               ))}
             </div>
-          </>
+          </div>
         );
       })}
     </>

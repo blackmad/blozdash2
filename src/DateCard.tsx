@@ -8,11 +8,11 @@ function dateDiffToString(date1: Date, date2: Date) {
   let diff = Math.abs(date1.getTime() - date2.getTime());
 
   const timeIntervals = {
-    month: 1000 * 60 * 60 * 24 * 30,
-    day: 1000 * 60 * 60 * 24,
-    hour: 1000 * 60 * 60,
-    minute: 1000 * 60,
-    second: 1000,
+    mo: 1000 * 60 * 60 * 24 * 30,
+    d: 1000 * 60 * 60 * 24,
+    h: 1000 * 60 * 60,
+    m: 1000 * 60,
+    // s: 1000,
   } as const;
 
   let result = '';
@@ -21,7 +21,8 @@ function dateDiffToString(date1: Date, date2: Date) {
   for (const key of keys) {
     if (diff >= timeIntervals[key]) {
       const time = Math.floor(diff / timeIntervals[key]);
-      result += `${time} ${key}${time !== 1 ? 's' : ''} `;
+      // result += `${time} ${key}${time !== 1 ? 's' : ''} `;
+      result += `${time}${key} `;
       diff %= timeIntervals[key];
     }
   }
@@ -35,6 +36,7 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
 
   // Calculate relative time since the event
   const [stringDiff, setStringDiff] = useState('');
+  const [isPast, setIsPast] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -51,16 +53,24 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
       // );
       const newStringDiff = dateDiffToString(now, parsedStartDate);
       setStringDiff(newStringDiff);
+      setIsPast(diff < 0);
     }, 1000);
   });
 
   return (
-    <BaseCard backgroundColor="#dc5945">
-      <h2 className="text-3xl font-bold ">{title}</h2>
-      <p className="text-gray-700">{subtitle}</p>
-      <p className="text-gray-700">{stringDiff}</p>
+    <BaseCard
+      backgroundColor="#dc5945"
+      extraClasses="p-4 flex flex-col justify-center items-center"
+    >
+      <h2 className="text-3xl font-bold pb-2 uppercase">{title}</h2>
+      <p className="text-gray-700 pb-2">{subtitle}</p>
 
-      <p className="text-gray-700">{parsedStartDate.toDateString()}</p>
+      <p className="text-2xl">{stringDiff}</p>
+      <p className="text-gray-700 pb-4">{isPast ? ' ago' : ' until then'}</p>
+
+      <p className="text-gray-700">
+        on <span className="">{parsedStartDate.toDateString()}</span>
+      </p>
     </BaseCard>
   );
 };
