@@ -47,9 +47,9 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
         backgroundColor,
         // color: LightTextColorMap[backgroundColorName ?? 'default'],
         color: NotionLightTextColor,
-        backgroundImage: backgroundImage
-          ? `linear-gradient(${backdropFilterColor}, ${backdropFilterColor}), url(${backgroundImage.url})`
-          : undefined,
+        // backgroundImage: backgroundImage
+        //   ? `linear-gradient(${backdropFilterColor}, ${backdropFilterColor}), url(${backgroundImage.url})`
+        //   : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
