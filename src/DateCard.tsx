@@ -59,7 +59,7 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
 
   return (
     <BaseCard
-      backgroundColor="#dc5945"
+      entry={entry}
       extraClasses="p-4 flex flex-col justify-center items-center"
     >
       <h2 className="text-3xl font-bold pb-2 uppercase">{title}</h2>

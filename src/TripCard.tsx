@@ -78,7 +78,7 @@ export const TripCard = ({ entry }: { entry: TripDataEntry }) => {
           },
         }}
       />
-      <BaseImageCard imgSrc={src} extraClasses="col-span-2" />
+      <BaseImageCard imgSrc={src} extraClasses="col-span-2" entry={entry} />
     </>
   );
 };

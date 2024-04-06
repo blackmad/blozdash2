@@ -50,6 +50,7 @@ const App = () => {
   console.log(data);
 
   const groups = _.groupBy(data, (entry) => entry.group?.name);
+  console.log({ groups });
 
   const sortedGroupKeys = _.sortBy(Object.keys(groups), (group) => {
     return group;
@@ -61,9 +62,9 @@ const App = () => {
         const entries = groups[groupName];
         const realGroupName = groupName.split('-')[1] || groupName;
         return (
-          <div className="m-4">
+          <div className="m-4 pb-8">
             {sortedGroupKeys.length > 1 && (
-              <div className="text-3xl">{realGroupName}</div>
+              <div className="text-5xl pb-4">{realGroupName}</div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
               {_.sortBy(entries, (entry) => entry.sortOrder).map((entry) => (
