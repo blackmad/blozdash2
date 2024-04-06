@@ -9,6 +9,7 @@ import { TripCard } from './TripCard';
 import { NumberCard } from './NumberCard';
 import { DataEntry } from './data';
 import { CountriesCard } from './CountriesCard';
+import { getNotionLightBackgroundColor } from './BaseCard';
 
 const CardDispatcher = ({ entry }: { entry: DataEntry }) => {
   const { cardType } = entry;
@@ -55,12 +56,19 @@ const App = () => {
 
   return (
     <div className="flex justify-center align-middle">
-      <div className="max-w-screen-xl">
+      <div className="w-full">
         {_.map(sortedGroupKeys, (groupName) => {
           const entries = groups[groupName];
           const realGroupName = groupName.split('-')[1] || groupName;
           return (
-            <div className="m-4 pb-8">
+            <div
+              className="p-8"
+              style={{
+                backgroundColor: getNotionLightBackgroundColor(
+                  entries[0].group?.color ?? 'gray',
+                ),
+              }}
+            >
               {sortedGroupKeys.length > 1 && (
                 <div className="text-5xl pb-4">{realGroupName}</div>
               )}

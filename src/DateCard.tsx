@@ -30,7 +30,7 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   return (
     <div>
       {_.map(timeIntervals, (intervalObj, timeString) => {
-        const { interval, fontSize } = intervalObj;
+        const { interval } = intervalObj;
         if (diff >= interval) {
           const time = Math.floor(diff / interval);
           // result += `${time} ${key}${time !== 1 ? 's' : ''} `;

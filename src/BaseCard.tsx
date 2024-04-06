@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { UntypedCommonProperties } from './data';
+import { makeBorderString } from './neumorphism';
 
 interface BaseCardProps {
   entry: UntypedCommonProperties;
@@ -15,7 +16,7 @@ export const BaseImageCard: React.FC<
       <img
         src={params.imgSrc}
         alt={params.alt}
-        className="h-full w-full object-contain"
+        className="h-full w-full object-cover"
       />
     </BaseCard>
   );
@@ -35,11 +36,29 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
     backgroundColorName ?? 'gray',
   );
 
+  console.log(backgroundColorName, backgroundColor);
+
+  const { css: borderCss } = makeBorderString({
+    color: backgroundColor,
+    blur: 80,
+    radius: 50,
+    distance: 25,
+    gradient: false,
+    colorDifference: 0.25,
+  });
+
+  console.log({ borderCss });
+
   return (
     <div
-      className={`h-72 shadow-md rounded-md col-span-${colSpan ?? 1}`}
+      className={`h-72 col-span-${colSpan ?? 1}`}
       style={{
-        backgroundColor,
+        ...borderCss,
+        // boxShadow: `0.4em 0.4em calc(0.4em * 2) ${shadowColor}, calc(0.4em * -1) calc(
+        //   0.4em * -1
+        // )
+        // calc(0.4em * 2) ${shadowColor}`,
+        // backgroundColor,
         // color: LightTextColorMap[backgroundColorName ?? 'default'],
         color: NotionLightTextColor,
         // backgroundImage: backgroundImage
@@ -47,6 +66,7 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
         //   : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        overflow: 'hidden',
       }}
     >
       <div
@@ -92,6 +112,6 @@ const LightModeBackgroundMap: Record<string, string> = {
   red: '#FDEBEC',
 };
 
-function getNotionLightBackgroundColor(name: string) {
+export function getNotionLightBackgroundColor(name: string) {
   return LightModeBackgroundMap[name];
 }
