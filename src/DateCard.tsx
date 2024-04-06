@@ -57,27 +57,24 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
   });
 
   return (
-    <BaseCard
-      entry={entry}
-      extraClasses="p-4 flex flex-col justify-between items-center"
-    >
-      <h2
-        className="text-3xl font-bold uppercase text-center"
-        style={{ flexGrow: 1 }}
+    <BaseCard entry={entry} extraClasses="p-4 flex flex-col  items-center">
+      <div
+        style={{ flexGrow: 0 }}
+        className="flex flex-col h-full items-center justify-center"
       >
-        {title}
-      </h2>
-      {/* <p className="text-gray-700">{subtitle}</p> */}
+        <h2 className="text-3xl font-bold uppercase text-center pb-2">
+          {title}
+        </h2>
+        {/* <p className="text-gray-700">{subtitle}</p> */}
 
-      <p className="text-2xl" style={{ flexGrow: 1 }}>
-        {entry.data.preposition || (!isPast ? 'in' : 'for')}
-      </p>
+        <p className="text-2xl pb-2">
+          {entry.data.preposition || (!isPast ? 'in' : 'for')}
+        </p>
 
-      <p className="text-5xl" style={{ flexGrow: 2.5 }}>
-        {stringDiff}
-      </p>
+        <p className="text-5xl">{stringDiff}</p>
+      </div>
 
-      <p className="text-gray-700" style={{ flexGrow: 0 }}>
+      <p className="text-gray-700 pt-4">
         <span className="text-2xl italic">
           {parsedStartDate.toDateString()}
         </span>
