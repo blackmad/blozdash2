@@ -61,19 +61,26 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
       entry={entry}
       extraClasses="p-4 flex flex-col justify-between items-center"
     >
-      <div>
-        <h2 className="text-3xl font-bold uppercase ">{title}</h2>
-        <p className="text-gray-700">{subtitle}</p>
-      </div>
+      <h2
+        className="text-3xl font-bold uppercase text-center"
+        style={{ flexGrow: 1 }}
+      >
+        {title}
+      </h2>
+      {/* <p className="text-gray-700">{subtitle}</p> */}
 
-      <p className="text-2xl">
+      <p className="text-2xl" style={{ flexGrow: 1 }}>
         {entry.data.preposition || (!isPast ? 'in' : 'for')}
       </p>
 
-      <p className="text-5xl">{stringDiff}</p>
+      <p className="text-5xl" style={{ flexGrow: 2.5 }}>
+        {stringDiff}
+      </p>
 
-      <p className="text-gray-700">
-        <span className="text-2xl">{parsedStartDate.toDateString()}</span>
+      <p className="text-gray-700" style={{ flexGrow: 0 }}>
+        <span className="text-2xl italic">
+          {parsedStartDate.toDateString()}
+        </span>
       </p>
     </BaseCard>
   );
