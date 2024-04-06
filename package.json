@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@mobily/ts-belt": "^3.13.1",
     "@notionhq/client": "^2.2.14",
     "@nwpr/airport-codes": "^3.0.3",

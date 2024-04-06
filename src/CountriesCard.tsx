@@ -1,8 +1,8 @@
 import React from 'react';
-import BaseCard, { BaseImageCard } from './BaseCard';
+import BaseCard from './BaseCard';
 import { CountryListDataEntry } from './data';
 
-export const CountriesCard = ({ entry }: { entry: CountryListDataEntry }) => {
+export function CountriesCard({ entry }: { entry: CountryListDataEntry }) {
   const { title } = entry;
   const countryCodes = entry.data.countryCodes.join(',');
 
@@ -47,4 +47,4 @@ export const CountriesCard = ({ entry }: { entry: CountryListDataEntry }) => {
       </div>
     </BaseCard>
   );
-};
+}
