@@ -35,10 +35,8 @@ const App = () => {
   const [data, setData] = React.useState<DataEntry[]>([]);
 
   useEffect(() => {
-    const file = window.location.search.substring(1) || 'data';
-    fetch(
-      `https://${process.env.REACT_APP_NOTION_BLOZDASH_DATABASE_ID}.s3-us-west-1.amazonaws.com/${file}.json`,
-    )
+    const file = window.location.search.substring(1);
+    fetch(file)
       .then((res) => res.json())
       .then((newData) => {
         console.log({ newData });
