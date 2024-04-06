@@ -38,7 +38,7 @@ const App = () => {
   useEffect(() => {
     const file = window.location.search.substring(1) || 'data';
     fetch(
-      `https://6631e610f0384c4c91ef678932b88097.s3.amazonaws.com/${file}.json`,
+      `https://${process.env.REACT_APP_NOTION_BLOZDASH_DATABASE_ID}.s3-us-west-1.amazonaws.com/${file}.json`,
     )
       .then((res) => res.json())
       .then((newData) => {
