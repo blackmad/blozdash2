@@ -31,8 +31,10 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
   const { group, backgroundImage } = entry;
   const backgroundColorName = group?.color;
   const backgroundColor = getNotionLightBackgroundColor(
-    backgroundColorName ?? 'grey',
+    backgroundColorName ?? 'gray',
   );
+
+  console.log(backgroundColorName, backgroundColor);
 
   const backdropFilterColor = hexToRgba(backgroundColor, 0.7);
 
@@ -47,6 +49,7 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
           ? `linear-gradient(${backdropFilterColor}, ${backdropFilterColor}), url(${backgroundImage.url})`
           : undefined,
         backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}
     >
       <div
@@ -69,7 +72,7 @@ export default BaseCard;
 
 const _LightTextColorMap: Record<string, string> = {
   default: '#37352F',
-  grey: '#787774',
+  gray: '#787774',
   brown: '#9F6B53',
   orange: '#D9730D',
   yellow: '#CB912F',
@@ -81,7 +84,7 @@ const _LightTextColorMap: Record<string, string> = {
 };
 
 const LightModeBackgroundMap: Record<string, string> = {
-  grey: '#F1F1EF',
+  gray: '#F1F1EF',
   brown: '#F4EEEE',
   orange: '#FAEBDD',
   yellow: '#FBF3DB',

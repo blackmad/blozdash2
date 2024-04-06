@@ -10,6 +10,7 @@ export function CountriesCard({ entry }: { entry: CountryListDataEntry }) {
   return (
     <BaseCard extraClasses="col-span-3 overflow-hidden" entry={entry}>
       <div
+        className="h-full w-full"
         style={{
           position: 'relative',
         }}
