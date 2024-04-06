@@ -1,13 +1,19 @@
 import { Type, Static, TSchema } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
 
+export const SelectEntry = Type.Object({
+  name: Type.String(),
+  color: Type.String(),
+  id: Type.String(),
+});
+
 export const UntypedCommonProperties = Type.Object({
   id: Type.String(),
   title: Type.String(),
   sortOrder: Type.Number(),
-  tag: Type.Union([Type.String(), Type.Undefined()]),
+  tag: Type.Union([SelectEntry, Type.Undefined()]),
   subtitle: Type.Union([Type.String(), Type.Undefined()]),
-  group: Type.Union([Type.String(), Type.Undefined()]),
+  group: Type.Union([SelectEntry, Type.Undefined()]),
 });
 export type UntypedCommonProperties = Static<typeof UntypedCommonProperties>;
 

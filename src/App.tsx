@@ -49,7 +49,7 @@ const App = () => {
 
   console.log(data);
 
-  const groups = _.groupBy(data, (entry) => entry.group);
+  const groups = _.groupBy(data, (entry) => entry.group?.name);
 
   const sortedGroupKeys = _.sortBy(Object.keys(groups), (group) => {
     return group;

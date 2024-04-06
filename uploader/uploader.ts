@@ -20,6 +20,8 @@ import {
   CountryListData,
   CountryListDataEntry,
   UntypedCommonProperties,
+  NumberData,
+  NumberDataEntry,
 } from '../src/data';
 
 // firebase functions:config:set notion.key="" google.bucket_name="blozdash"
@@ -59,9 +61,15 @@ function notionResponseToDataEntries(
 
   return simplifiedDicts
     .map((simplifiedDict, i) => {
-      const { cardType } = simplifiedDict.properties;
+      const { cardType: cardTypeObject } = simplifiedDict.properties;
+      const cardType = cardTypeObject?.name;
+
       if (!isValidCardType(cardType)) {
-        console.warn(`Invalid card type: ${cardType}`);
+        console.warn(
+          `Invalid card type: ${JSON.stringify(
+            cardTypeObject,
+          )} ${cardType} ${JSON.stringify(simplifiedDict)}`,
+        );
         return;
       }
 
@@ -69,8 +77,8 @@ function notionResponseToDataEntries(
         id: simplifiedDict.id,
         title: simplifiedDict.title,
         subtitle: '',
-        group: simplifiedDict.properties.Group,
-        tag: simplifiedDict.properties.Tag,
+        group: simplifiedDict.properties.Group || undefined,
+        tag: simplifiedDict.properties.Tag || undefined,
         sortOrder: simplifiedDict.properties.SortOrder ?? -1 * i,
       };
 
@@ -121,13 +129,27 @@ function notionResponseToDataEntries(
         };
         return countryListDataEntry;
       }
+      if (cardType === 'number') {
+        const numberData: NumberData = {
+          number: simplifiedDict.properties.Number,
+          unit: undefined,
+        };
+        const cardDataEntry: NumberDataEntry = {
+          ...commonProperties,
+          data: numberData,
+          cardType,
+        };
+        return cardDataEntry;
+      }
       return unreachable(cardType);
     })
     .filter(isNotUndefined)
     .filter((dataEntry) => {
       const isValid = Value.Check(DataEntry, dataEntry);
       if (!isValid) {
-        console.warn('Invalid data entry:', dataEntry);
+        console.warn('Invalid data entry:', dataEntry, 'because', [
+          ...Value.Errors(DataEntry, dataEntry),
+        ]);
         return false;
       }
       return true;
@@ -151,8 +173,7 @@ function simplifyNotionResponseToPropertyNameDict(
       } else if (value.type === 'number') {
         properties[key] = value.number;
       } else if (value.type === 'select') {
-        console.log(value.select?.name);
-        properties[key] = value.select?.name;
+        properties[key] = value.select;
       } else if (value.type === 'date') {
         properties[key] = value.date;
       } else if (value.type === 'multi_select') {
@@ -254,7 +275,10 @@ async function readNotionDatabase(databaseId: string): Promise<any> {
 }
 
 async function uploadDataToS3(data: DataEntry[]) {
-  const groupedByTagData = _.groupBy(data, (entry) => entry.tag ?? 'data');
+  const groupedByTagData = _.groupBy(
+    data,
+    (entry) => entry.tag?.name ?? 'data',
+  );
 
   for (const [group, entries] of Object.entries(groupedByTagData)) {
     const params = {
