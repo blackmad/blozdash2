@@ -31,7 +31,7 @@ function dateDiffToString(date1: Date, date2: Date) {
 }
 
 export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
-  const { title, subtitle } = entry;
+  const { title } = entry;
   const parsedStartDate = new Date(entry.data.start);
 
   // Calculate relative time since the event

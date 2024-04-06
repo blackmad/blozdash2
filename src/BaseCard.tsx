@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { UntypedCommonProperties } from './data';
-import hexToRgba from 'hex-to-rgba';
 
 interface BaseCardProps {
   entry: UntypedCommonProperties;
@@ -30,15 +29,11 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
   entry,
   extraClasses,
 }) => {
-  const { group, backgroundImage } = entry;
+  const { group } = entry;
   const backgroundColorName = group?.color;
   const backgroundColor = getNotionLightBackgroundColor(
     backgroundColorName ?? 'gray',
   );
-
-  console.log(backgroundColorName, backgroundColor);
-
-  const backdropFilterColor = hexToRgba(backgroundColor, 0.7);
 
   return (
     <div
