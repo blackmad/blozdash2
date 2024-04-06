@@ -5,6 +5,7 @@ import hexToRgba from 'hex-to-rgba';
 interface BaseCardProps {
   entry: UntypedCommonProperties;
   extraClasses?: string;
+  colSpan?: number;
 }
 
 export const BaseImageCard: React.FC<
@@ -24,6 +25,7 @@ export const BaseImageCard: React.FC<
 const NotionLightTextColor = 'rgb(28, 56, 41)';
 
 export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
+  colSpan,
   children,
   entry,
   extraClasses,
@@ -40,7 +42,7 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
 
   return (
     <div
-      className={`h-72 shadow-md rounded-md`}
+      className={`h-72 shadow-md rounded-md col-span-${colSpan ?? 1}`}
       style={{
         backgroundColor,
         // color: LightTextColorMap[backgroundColorName ?? 'default'],

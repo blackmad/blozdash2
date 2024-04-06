@@ -8,7 +8,7 @@ export function CountriesCard({ entry }: { entry: CountryListDataEntry }) {
 
   const src = `https://www.fla-shop.com/visited-countries/embed/?st=${countryCodes}&vc=1ca032&uc=b3c3ca&hc=40bfa6&bc=ffffff&ss=on`;
   return (
-    <BaseCard extraClasses="col-span-3 overflow-hidden" entry={entry}>
+    <BaseCard colSpan={3} extraClasses="overflow-hidden" entry={entry}>
       <div
         className="h-full w-full"
         style={{

@@ -84,7 +84,7 @@ export const TripCard = ({
           }}
         />
       )}
-      <BaseImageCard imgSrc={src} extraClasses="col-span-2" entry={entry} />
+      <BaseImageCard imgSrc={src} colSpan={2} entry={entry} />
     </>
   );
 };

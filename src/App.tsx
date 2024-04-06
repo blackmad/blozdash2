@@ -54,24 +54,26 @@ const App = () => {
   });
 
   return (
-    <>
-      {_.map(sortedGroupKeys, (groupName) => {
-        const entries = groups[groupName];
-        const realGroupName = groupName.split('-')[1] || groupName;
-        return (
-          <div className="m-4 pb-8">
-            {sortedGroupKeys.length > 1 && (
-              <div className="text-5xl pb-4">{realGroupName}</div>
-            )}
-            <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
-              {_.sortBy(entries, (entry) => entry.sortOrder).map((entry) => (
-                <CardDispatcher key={entry.id} entry={entry} />
-              ))}
+    <div className="flex justify-center align-middle">
+      <div className="max-w-screen-xl">
+        {_.map(sortedGroupKeys, (groupName) => {
+          const entries = groups[groupName];
+          const realGroupName = groupName.split('-')[1] || groupName;
+          return (
+            <div className="m-4 pb-8">
+              {sortedGroupKeys.length > 1 && (
+                <div className="text-5xl pb-4">{realGroupName}</div>
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {_.sortBy(entries, (entry) => entry.sortOrder).map((entry) => (
+                  <CardDispatcher key={entry.id} entry={entry} />
+                ))}
+              </div>
             </div>
-          </div>
-        );
-      })}
-    </>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 
