@@ -79,6 +79,12 @@ export const TripData = Type.Object({
 export type TripDataEntry = Static<typeof TripDataEntry>;
 export const TripDataEntry = CommonProperties(TripData, Type.Literal('trip'));
 
+export type TripWithDistanceDataEntry = Static<typeof TripWithDistanceEntry>;
+export const TripWithDistanceEntry = CommonProperties(
+  TripData,
+  Type.Literal('trip-with-distance'),
+);
+
 /** ***** TRIP CARD ****** */
 
 export type CountryListData = Static<typeof CountryListData>;
@@ -99,6 +105,7 @@ export const DataEntry = Type.Union([
   DateDataEntry,
   ImageDataEntry,
   TripDataEntry,
+  TripWithDistanceEntry,
   CountryListDataEntry,
   NumberDataEntry,
 ]);

@@ -13,7 +13,7 @@ import { CountriesCard } from './CountriesCard';
 
 const CardDispatcher = ({ entry }: { entry: DataEntry }) => {
   const { cardType } = entry;
-  if (cardType === 'trip') {
+  if (cardType === 'trip' || cardType === 'trip-with-distance') {
     return <TripCard entry={entry} />;
   }
   if (cardType === 'number') {

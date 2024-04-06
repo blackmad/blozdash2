@@ -107,7 +107,7 @@ function notionResponseToDataEntries(
         };
         return cardDataEntry;
       }
-      if (cardType === 'trip') {
+      if (cardType === 'trip' || cardType === 'trip-with-distance') {
         const tripData: TripData = {
           airportCodes: simplifiedDict.properties.AirportCodes,
         };

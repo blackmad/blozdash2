@@ -69,7 +69,7 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
       <p className="text-gray-700 pb-4">{isPast ? ' ago' : ' until then'}</p>
 
       <p className="text-gray-700">
-        on <span className="">{parsedStartDate.toDateString()}</span>
+        <span className="">{parsedStartDate.toDateString()}</span>
       </p>
     </BaseCard>
   );
