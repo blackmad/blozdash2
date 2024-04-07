@@ -1,9 +1,14 @@
 import React, { ReactNode } from 'react';
 import { UntypedCommonProperties } from './data';
 import { makeBorderString } from './neumorphism';
+import hexToRgba from 'hex-to-rgba';
 
-interface BaseCardProps {
+export interface ExternalBaseCardProps {
   entry: UntypedCommonProperties;
+  onClick: (id: string) => void;
+}
+
+interface BaseCardProps extends ExternalBaseCardProps {
   extraClasses?: string;
   colSpan?: number;
 }
@@ -24,12 +29,13 @@ export const BaseImageCard: React.FC<
 
 const NotionLightTextColor = 'rgb(28, 56, 41)';
 
-export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
+export const BaseCard = ({
+  onClick,
   colSpan,
   children,
   entry,
   extraClasses,
-}) => {
+}: BaseCardProps & { children: ReactNode }) => {
   const { group, backgroundImage } = entry;
   const backgroundColorName = group?.color;
   const backgroundColor = getNotionLightBackgroundColor(
@@ -46,12 +52,13 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
     gradient: false,
     colorDifference: 0.25,
   });
-  const backdropFilterColor = backgroundColor;
+  const backdropFilterColor = hexToRgba(backgroundColor, 0.7);
 
   console.log({ borderCss, backgroundImage });
 
   return (
     <div
+      onClick={() => onClick(entry.id)}
       className={`h-72 col-span-${colSpan ?? 1}`}
       style={{
         ...borderCss,
@@ -62,9 +69,9 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
         // backgroundColor,
         // color: LightTextColorMap[backgroundColorName ?? 'default'],
         color: NotionLightTextColor,
-        // backgroundImage: backgroundImage
-        //   ? `linear-gradient(${backdropFilterColor}, ${backdropFilterColor}), url(${backgroundImage.url})`
-        //   : undefined,
+        backgroundImage: backgroundImage
+          ? `linear-gradient(${backdropFilterColor}, ${backdropFilterColor}), url(${backgroundImage.url})`
+          : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         overflow: 'hidden',

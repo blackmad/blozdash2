@@ -1,13 +1,16 @@
 import React from 'react';
-import BaseCard from './BaseCard';
+import BaseCard, { ExternalBaseCardProps } from './BaseCard';
 import { NumberDataEntry } from './data';
 
-export const NumberCard = ({ entry }: { entry: NumberDataEntry }) => {
+export const NumberCard = (
+  params: { entry: NumberDataEntry } & ExternalBaseCardProps,
+) => {
+  const { entry } = params;
   const { title, subtitle, data } = entry;
   const { number, unit } = data;
   return (
     <BaseCard
-      entry={entry}
+      {...params}
       extraClasses="p-4 flex flex-col justify-center items-center"
     >
       <h2 className="text-3xl font-bold pb-2 uppercase">{title}</h2>

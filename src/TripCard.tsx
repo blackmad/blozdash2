@@ -1,14 +1,15 @@
 import React from 'react';
 import { airports } from '@nwpr/airport-codes';
-import { BaseImageCard } from './BaseCard';
+import { BaseImageCard, ExternalBaseCardProps } from './BaseCard';
 import { NumberCard } from './NumberCard';
 import { TripDataEntry, TripWithDistanceDataEntry } from './data';
 
-export const TripCard = ({
-  entry,
-}: {
-  entry: TripDataEntry | TripWithDistanceDataEntry;
-}) => {
+export const TripCard = (
+  params: {
+    entry: TripDataEntry | TripWithDistanceDataEntry;
+  } & ExternalBaseCardProps,
+) => {
+  const { entry } = params;
   const { airportCodes } = entry.data;
 
   if (airportCodes.length !== 2) {
@@ -73,6 +74,7 @@ export const TripCard = ({
     <>
       {entry.cardType === 'trip-with-distance' && (
         <NumberCard
+          {...params}
           entry={{
             ...entry,
             cardType: 'number',
@@ -84,7 +86,7 @@ export const TripCard = ({
           }}
         />
       )}
-      <BaseImageCard imgSrc={src} colSpan={2} entry={entry} />
+      <BaseImageCard imgSrc={src} colSpan={2} {...params} />
     </>
   );
 };
