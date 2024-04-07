@@ -1,14 +1,17 @@
 import React from 'react';
-import BaseCard from './BaseCard';
+import BaseCard, { ExternalBaseCardProps } from './BaseCard';
 import { CountryListDataEntry } from './data';
 
-export function CountriesCard({ entry }: { entry: CountryListDataEntry }) {
+export function CountriesCard(
+  params: { entry: CountryListDataEntry } & ExternalBaseCardProps,
+) {
+  const { entry } = params;
   const { title } = entry;
   const countryCodes = entry.data.countryCodes.join(',');
 
   const src = `https://www.fla-shop.com/visited-countries/embed/?st=${countryCodes}&vc=1ca032&uc=b3c3ca&hc=40bfa6&bc=ffffff&ss=on`;
   return (
-    <BaseCard colSpan={3} extraClasses="overflow-hidden" entry={entry}>
+    <BaseCard colSpan={3} extraClasses="overflow-hidden" {...params}>
       <div
         className="h-full w-full"
         style={{

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import BaseCard from './BaseCard';
+import BaseCard, { ExternalBaseCardProps } from './BaseCard';
 import { DateDataEntry } from './data';
 import _ from 'lodash';
 
@@ -50,7 +50,10 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   );
 }
 
-export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
+export const DateCard = (
+  params: { entry: DateDataEntry } & ExternalBaseCardProps,
+) => {
+  const { entry } = params;
   const { title } = entry;
   const parsedStartDate = useMemo(
     () => new Date(entry.data.start),
@@ -76,7 +79,7 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
   }, [parsedStartDate, parsedEndDate, now, isPast]);
 
   return (
-    <BaseCard entry={entry} extraClasses="p-4 flex flex-col  items-center">
+    <BaseCard {...params} extraClasses="p-4 flex flex-col  items-center">
       <div
         style={{ flexGrow: 0 }}
         className="flex flex-col h-full items-center justify-center"

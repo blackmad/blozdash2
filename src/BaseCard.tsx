@@ -2,8 +2,13 @@ import React, { ReactNode } from 'react';
 import { UntypedCommonProperties } from './data';
 import { makeBorderString } from './neumorphism';
 
-interface BaseCardProps {
+export interface ExternalBaseCardProps {
   entry: UntypedCommonProperties;
+  onClick: (id: string) => void;
+  singleCard: boolean;
+}
+
+interface BaseCardProps extends ExternalBaseCardProps {
   extraClasses?: string;
   colSpan?: number;
 }
@@ -24,12 +29,22 @@ export const BaseImageCard: React.FC<
 
 const NotionLightTextColor = 'rgb(28, 56, 41)';
 
-export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
+export const BaseCard = ({
+  onClick,
   colSpan,
   children,
   entry,
   extraClasses,
-}) => {
+  singleCard,
+}: BaseCardProps & { children: ReactNode }) => {
+  if (singleCard) {
+    return (
+      <div className="flex flex-col justify-center align-middle items-center">
+        {children}
+      </div>
+    );
+  }
+
   const { group } = entry;
   const backgroundColorName = group?.color;
   const backgroundColor = getNotionLightBackgroundColor(
@@ -40,15 +55,16 @@ export const BaseCard: React.FC<BaseCardProps & { children: ReactNode }> = ({
 
   const { css: borderCss } = makeBorderString({
     color: backgroundColor,
-    blur: 80,
+    blur: 15,
     radius: 50,
-    distance: 25,
+    distance: 5,
     gradient: false,
     colorDifference: 0.25,
   });
 
   return (
     <div
+      onClick={() => onClick(entry.id)}
       className={`h-72 col-span-${colSpan ?? 1}`}
       style={{
         ...borderCss,
