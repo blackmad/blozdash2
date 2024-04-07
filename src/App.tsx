@@ -119,7 +119,7 @@ const App = () => {
                 className={
                   id
                     ? 'h-full flex justify-center align-middle items-center'
-                    : `grid grid-cols-1 md:grid-cols-3 gap-4 w-full`
+                    : `grid grid-cols-2 md:grid-cols-3 gap-4 w-full`
                 }
               >
                 {_.sortBy(entries, (entry) => entry.sortOrder).map((entry) => (
