@@ -118,7 +118,7 @@ const App = () => {
               <div
                 className={
                   id
-                    ? 'h-full flex justify-center align-middle'
+                    ? 'h-full flex justify-center align-middle items-center'
                     : `grid grid-cols-1 md:grid-cols-3 gap-4 w-full`
                 }
               >

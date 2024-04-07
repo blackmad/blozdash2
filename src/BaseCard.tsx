@@ -39,7 +39,7 @@ export const BaseCard = ({
 }: BaseCardProps & { children: ReactNode }) => {
   if (singleCard) {
     return (
-      <div className="flex flex-col justify-center align-middle items-center">
+      <div className="flex flex-col justify-center align-middle items-center max-h-72">
         {children}
       </div>
     );
