@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import BaseCard from './BaseCard';
 import { DateDataEntry } from './data';
@@ -52,7 +52,14 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
 
 export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
   const { title } = entry;
-  const parsedStartDate = new Date(entry.data.start);
+  const parsedStartDate = useMemo(
+    () => new Date(entry.data.start),
+    [entry.data.start],
+  );
+  const parsedEndDate = useMemo(
+    () => (entry.data.end ? new Date(entry.data.end) : undefined),
+    [entry.data.end],
+  );
 
   // Calculate relative time since the event
   const [now, setNow] = useState<Date>(new Date());
@@ -60,13 +67,13 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      const now = new Date();
+      const now = parsedEndDate ?? new Date();
       const diff = parsedStartDate.getTime() - now.getTime();
 
       setNow(now);
       setIsPast(diff < 0);
     }, 1000);
-  }, []);
+  }, [parsedStartDate, parsedEndDate, now, isPast]);
 
   return (
     <BaseCard entry={entry} extraClasses="p-4 flex flex-col  items-center">
@@ -86,11 +93,16 @@ export const DateCard = ({ entry }: { entry: DateDataEntry }) => {
         <DateDiff date1={parsedStartDate} date2={now} />
       </div>
 
-      <p className="text-gray-700 pt-4">
-        <span className="text-2xl italic">
+      <div className="text-gray-700 pt-4">
+        <div className="text-2xl text-gray-700 italic">
           {parsedStartDate.toDateString()}
-        </span>
-      </p>
+        </div>
+        {parsedEndDate && (
+          <div className="text-2xl text-gray-700 italic">
+            - {parsedEndDate.toDateString()}
+          </div>
+        )}
+      </div>
     </BaseCard>
   );
 };
