@@ -1,34 +1,41 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import BaseCard, { ExternalBaseCardProps } from './BaseCard';
+import BaseCard, {
+  ExternalBaseCardProps,
+  FooterText,
+  SubTitle,
+  Title,
+} from './BaseCard';
 import { DateDataEntry } from './data';
 import _ from 'lodash';
 
 function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   let diff = Math.abs(date1.getTime() - date2.getTime());
 
-  const fontSizes = ['text-5xl', 'text-4xl', 'text-3xl', 'text-3xl'];
+  const fontSizes = [
+    'text-3xl md:text-5xl',
+    'text-2xl md:text-4xl',
+    'text-xl md:text-3xl',
+    'text-xl md:text-3xl',
+  ];
 
   const timeIntervals = {
     mo: {
       interval: 1000 * 60 * 60 * 24 * 30,
-      fontSize: 'text-5xl',
     },
 
     d: {
       interval: 1000 * 60 * 60 * 24,
-      fontSize: 'text-4xl',
     },
     h: {
       interval: 1000 * 60 * 60,
-      fontSize: 'text-3xl',
     },
-    m: { interval: 1000 * 60, fontSize: 'text-3xl' },
+    m: { interval: 1000 * 60 },
     // s: 1000,
   } as const;
 
   return (
-    <div>
+    <div className="text-center">
       {_.map(timeIntervals, (intervalObj, timeString) => {
         const { interval } = intervalObj;
         if (diff >= interval) {
@@ -84,28 +91,20 @@ export const DateCard = (
         style={{ flexGrow: 0 }}
         className="flex flex-col h-full items-center justify-center"
       >
-        <h2 className="text-3xl font-bold uppercase text-center pb-2">
-          {title}
-        </h2>
+        <Title>{title}</Title>
         {/* <p className="text-gray-700">{subtitle}</p> */}
 
-        <p className="text-2xl pb-2">
+        <SubTitle>
           {entry.data.preposition || (!isPast ? 'in' : 'for')}
-        </p>
+        </SubTitle>
 
         <DateDiff date1={parsedStartDate} date2={now} />
       </div>
 
-      <div className="text-gray-700 pt-4">
-        <div className="text-2xl text-gray-700 italic">
-          {parsedStartDate.toDateString()}
-        </div>
-        {parsedEndDate && (
-          <div className="text-2xl text-gray-700 italic">
-            - {parsedEndDate.toDateString()}
-          </div>
-        )}
-      </div>
+      <FooterText>
+        {parsedStartDate.toDateString()}
+        {parsedEndDate && <span>- {parsedEndDate.toDateString()}</span>}
+      </FooterText>
     </BaseCard>
   );
 };

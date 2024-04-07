@@ -143,3 +143,27 @@ const LightModeBackgroundMap: Record<string, string> = {
 export function getNotionLightBackgroundColor(name: string) {
   return LightModeBackgroundMap[name];
 }
+
+export function Title({ children }: { children: string }) {
+  return (
+    <div className="text-2xl md:text-3xl font-bold pb-2 uppercase align-middle text-center">
+      {children}
+    </div>
+  );
+}
+
+export function SubTitle({ children }: { children: ReactNode }) {
+  return <div className="text-2xl md:text-2xl pb-2">{children}</div>;
+}
+
+export function BigText({ children }: { children: string }) {
+  return <p className="text-gray-700 text-4xl md:text-5xl">{children}</p>;
+}
+
+export function FooterText({ children }: { children: ReactNode }) {
+  return (
+    <div className="pt-4 text-lg md:text-2xl text-gray-700 italic">
+      {children}
+    </div>
+  );
+}

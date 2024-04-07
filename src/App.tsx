@@ -102,7 +102,7 @@ const App = () => {
         return (
           <>
             <div
-              className="p-8  h-full flex justify-center items-center flex-col"
+              className="p-4 md:p-8  h-full flex justify-center items-center flex-col"
               style={{
                 backgroundColor: getNotionLightBackgroundColor(
                   entries[0].group?.color ?? 'gray',
