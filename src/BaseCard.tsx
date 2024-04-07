@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 import { UntypedCommonProperties } from './data';
 import { makeBorderString } from './neumorphism';
+import { useWindowSize } from '@react-hook/window-size';
+import { useMeasure } from 'react-use'; // or just 'react-use-measure'
 
 export interface ExternalBaseCardProps {
   entry: UntypedCommonProperties;
@@ -37,9 +39,21 @@ export const BaseCard = ({
   extraClasses,
   singleCard,
 }: BaseCardProps & { children: ReactNode }) => {
+  const [windowWidth, windowHeight] = useWindowSize();
+  const [ref, { width, height }] = useMeasure<HTMLDivElement>();
+  console.log('Current width of element', width);
+
+  const scale = Math.min(windowWidth / width, windowHeight / height);
+
   if (singleCard) {
     return (
-      <div className="flex flex-col justify-center align-middle items-center max-h-72">
+      <div
+        ref={ref}
+        className="flex flex-col justify-center align-middle items-center max-h-72"
+        style={{
+          transform: `scale(${scale * 0.8})`,
+        }}
+      >
         {children}
       </div>
     );
