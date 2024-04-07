@@ -6,6 +6,7 @@ import hexToRgba from 'hex-to-rgba';
 export interface ExternalBaseCardProps {
   entry: UntypedCommonProperties;
   onClick: (id: string) => void;
+  singleCard: boolean;
 }
 
 interface BaseCardProps extends ExternalBaseCardProps {
@@ -35,7 +36,16 @@ export const BaseCard = ({
   children,
   entry,
   extraClasses,
+  singleCard,
 }: BaseCardProps & { children: ReactNode }) => {
+  if (singleCard) {
+    return (
+      <div className="flex flex-col justify-center align-middle items-center">
+        {children}
+      </div>
+    );
+  }
+
   const { group, backgroundImage } = entry;
   const backgroundColorName = group?.color;
   const backgroundColor = getNotionLightBackgroundColor(
@@ -46,9 +56,9 @@ export const BaseCard = ({
 
   const { css: borderCss } = makeBorderString({
     color: backgroundColor,
-    blur: 80,
+    blur: 15,
     radius: 50,
-    distance: 25,
+    distance: 5,
     gradient: false,
     colorDifference: 0.25,
   });
