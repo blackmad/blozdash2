@@ -64,7 +64,7 @@ const App = () => {
     const searchString = window.location.search.substring(1);
 
     const searchParams = new URLSearchParams(searchString);
-    const dataUrl = searchParams.get('url') || searchString;
+    const dataUrl = searchParams.get('url') || searchString || "https://49c3e2dde2a04125ac584d16ecfd7af6.s3-us-west-1.amazonaws.com/data.json";
 
     setDataUrl(dataUrl);
     setId(searchParams.get('id'));
