@@ -13,12 +13,14 @@ import _ from 'lodash';
 function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   let diff = Math.abs(date1.getTime() - date2.getTime());
 
+  const dayInterval = 1000 * 60 * 60 * 24;
+
   const timeIntervals = {
-    mo: {
+    month: {
       interval: 1000 * 60 * 60 * 24 * 30,
     },
-    d: {
-      interval: 1000 * 60 * 60 * 24,
+    day: {
+      interval: dayInterval,
     },
     h: {
       interval: 1000 * 60 * 60,
@@ -27,7 +29,7 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   } as const;
 
   // Calculate total days
-  const totalDays = Math.floor(diff / timeIntervals.d.interval);
+  const totalDays = Math.floor(diff / dayInterval);
 
   let dateString = _.map(timeIntervals, (intervalObj, timeString) => {
     const { interval } = intervalObj;
@@ -50,12 +52,26 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
           </span>
           <span className="text-lg md:text-2xl font-normal ml-0.5 mb-0.5">
             {timeString}
+            {diff === 0 ? '' : 's'}
           </span>
         </span>
       );
     }
     return null;
   });
+
+  if (totalDays < 60) {
+    dateString = [
+      <span key="d" className="inline-flex items-end">
+        <span className="font-bold text-3xl md:text-5xl leading-none">
+          {totalDays}
+        </span>
+        <span className="text-lg md:text-2xl font-normal ml-0.5 mb-0.5">
+          day{totalDays === 1 ? '' : 's'}
+        </span>
+      </span>,
+    ];
+  }
 
   if (totalDays <= 1 || dateString.length === 0) {
     dateString = [
