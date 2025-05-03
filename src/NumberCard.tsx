@@ -21,7 +21,7 @@ export const NumberCard = (
       <Title>{title}</Title>
       <SubTitle>{subtitle}</SubTitle>
 
-      <BigText>{`${number} ${unit}`}</BigText>
+      <BigText>{`${number}${unit ? ` ${unit}` : ''}`}</BigText>
     </BaseCard>
   );
 };
