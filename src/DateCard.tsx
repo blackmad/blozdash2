@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
+// import { MdCalendarToday } from 'react-icons/md';
 
 import BaseCard, {
   ExternalBaseCardProps,
   FooterText,
-  SubTitle,
+  // SubTitle,
   Title,
 } from './BaseCard';
 import { DateDataEntry } from './data';
@@ -13,11 +14,12 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   let diff = Math.abs(date1.getTime() - date2.getTime());
 
   const fontSizes = [
-    'text-3xl md:text-5xl',
+    'text-3xl md:text-5xl font-bold',
     'text-2xl md:text-4xl',
     'text-xl md:text-3xl',
     'text-xl md:text-3xl',
   ];
+  const originalFontSizes = [...fontSizes];
 
   const timeIntervals = {
     mo: {
@@ -37,20 +39,17 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
 
   let dateString = _.map(timeIntervals, (intervalObj, timeString) => {
     const { interval } = intervalObj;
-
     // Skip hours and minutes if more than 14 days
     if (totalDays > 14 && (timeString === 'h' || timeString === 'm')) {
       return null;
     }
-
     // Show only days if less than 60 days
     if (totalDays < 60 && (timeString === 'h' || timeString === 'm')) {
       return null;
     }
-
     if (diff >= interval) {
       const time = Math.floor(diff / interval);
-      const result = `${time}${timeString} `;
+      const result = `${time}${timeString}`;
       diff %= interval;
       return (
         <span key={timeString} className={fontSizes.shift()}>
@@ -62,10 +61,19 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   });
 
   if (totalDays <= 1 || dateString.length === 0) {
-    dateString = [<span className={fontSizes[0]}>1d</span>];
+    dateString = [<span className={originalFontSizes[0]}>1d</span>];
   }
 
-  return <div className="text-center">{dateString}</div>;
+  return (
+    <div className="flex flex-col items-center justify-center mb-2">
+      <span className="bg-white/80 rounded-full shadow-md flex items-center justify-center w-20 h-20 md:w-24 md:h-24 mb-1">
+        {/* <MdCalendarToday className="text-gray-400 mr-2" size={28} /> */}
+        <span className="flex items-center justify-center w-full h-full">
+          {dateString}
+        </span>
+      </span>
+    </div>
+  );
 }
 
 export const DateCard = (
@@ -90,14 +98,13 @@ export const DateCard = (
     setTimeout(() => {
       const now = parsedEndDate ?? new Date();
       const diff = parsedStartDate.getTime() - now.getTime();
-
       setNow(now);
       setIsPast(diff < 0);
     }, 1000);
   }, [parsedStartDate, parsedEndDate, now, isPast]);
 
   return (
-    <BaseCard {...params} extraClasses="p-4 flex flex-col  items-center">
+    <BaseCard {...params} extraClasses="p-4 flex flex-col items-center">
       <div
         style={{ flexGrow: 0 }}
         className="flex flex-col h-full items-center justify-center"
@@ -111,16 +118,23 @@ export const DateCard = (
 
         <DateDiff date1={parsedStartDate} date2={now} />
 
-        {
-          <SubTitle>
-            {parsedEndDate ? 'total' : isPast ? 'ago' : 'from now'}
-          </SubTitle>
-        }
+        <span className="text-gray-500 text-base italic mt-0.5 mb-2">
+          {parsedEndDate ? 'total' : isPast ? 'ago' : 'from now'}
+        </span>
       </div>
-
+      <div className="w-full flex justify-center items-center mt-2 mb-1">
+        <div className="border-t border-gray-200 w-2/3 mx-2" />
+      </div>
       <FooterText>
-        {parsedStartDate.toDateString()}
-        {parsedEndDate && <span>- {parsedEndDate.toDateString()}</span>}
+        <span className="text-sm text-gray-500">
+          {parsedStartDate.toDateString()}
+        </span>
+        {parsedEndDate && (
+          <span className="text-sm text-gray-500">
+            {' '}
+            - {parsedEndDate.toDateString()}
+          </span>
+        )}
       </FooterText>
     </BaseCard>
   );
