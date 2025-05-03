@@ -13,14 +13,6 @@ import _ from 'lodash';
 function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   let diff = Math.abs(date1.getTime() - date2.getTime());
 
-  const fontSizes = [
-    'text-3xl md:text-5xl font-bold',
-    'text-2xl md:text-4xl',
-    'text-xl md:text-3xl',
-    'text-xl md:text-3xl',
-  ];
-  const originalFontSizes = [...fontSizes];
-
   const timeIntervals = {
     mo: {
       interval: 1000 * 60 * 60 * 24 * 30,
@@ -49,11 +41,16 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
     }
     if (diff >= interval) {
       const time = Math.floor(diff / interval);
-      const result = `${time}${timeString}`;
       diff %= interval;
+      // Render number bold/large, unit normal/smaller
       return (
-        <span key={timeString} className={fontSizes.shift()}>
-          {result}
+        <span key={timeString} className="inline-flex items-end mr-1">
+          <span className="font-bold text-3xl md:text-5xl leading-none">
+            {time}
+          </span>
+          <span className="text-lg md:text-2xl font-normal ml-0.5 mb-0.5">
+            {timeString}
+          </span>
         </span>
       );
     }
@@ -61,12 +58,17 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
   });
 
   if (totalDays <= 1 || dateString.length === 0) {
-    dateString = [<span className={originalFontSizes[0]}>1d</span>];
+    dateString = [
+      <span key="d" className="inline-flex items-end">
+        <span className="font-bold text-3xl md:text-5xl leading-none">1</span>
+        <span className="text-lg md:text-2xl font-normal ml-0.5 mb-0.5">d</span>
+      </span>,
+    ];
   }
 
   return (
     <div className="flex flex-col items-center justify-center mb-2">
-      <span className="bg-white/80 rounded-full shadow-md flex items-center justify-center w-20 h-20 md:w-24 md:h-24 mb-1">
+      <span className="bg-white/80 rounded-full shadow-md flex items-center justify-center min-w-[5.5rem] px-6 py-4 mb-1">
         {/* <MdCalendarToday className="text-gray-400 mr-2" size={28} /> */}
         <span className="flex items-center justify-center w-full h-full">
           {dateString}
@@ -91,8 +93,9 @@ export const DateCard = (
   );
 
   // Calculate relative time since the event
-  const [now, setNow] = useState<Date>(new Date());
-  const [isPast, setIsPast] = useState(false);
+  const [now, setNow] = useState<Date>(parsedEndDate ?? new Date());
+  const diff = parsedStartDate.getTime() - now.getTime();
+  const [isPast, setIsPast] = useState(diff < 0);
 
   useEffect(() => {
     setTimeout(() => {
