@@ -24,6 +24,7 @@
     "ajv-formats": "^3.0.1",
     "aws-sdk": "^2.1594.0",
     "chroma-js": "^2.4.2",
+    "dotenv": "^16.5.0",
     "hex-to-rgba": "^2.0.1",
     "javascript-time-ago": "^2.5.9",
     "lodash": "^4.17.21",
@@ -46,7 +47,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "upload": "source .env && npx tsx uploader/uploader.ts"
   },
   "eslintConfig": {
     "extends": [

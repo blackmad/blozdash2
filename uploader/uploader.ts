@@ -24,6 +24,8 @@ import {
   NumberDataEntry,
 } from '../src/data';
 
+require('dotenv').config();
+
 const NotionSecret = process.env.NOTION_BLOZDASH_API_KEY;
 const DatabaseId = process.env.NOTION_BLOZDASH_DATABASE_ID;
 const BucketName = process.env.NOTION_BLOZDASH_DATABASE_ID;
@@ -88,6 +90,8 @@ function notionResponseToDataEntries(
         sortOrder: simplifiedDict.properties.SortOrder ?? -1 * i,
         backgroundImage: imageData,
       };
+
+      console.log('id, name', simplifiedDict.id, simplifiedDict.title);
 
       if (cardType === 'image') {
         if (imageData) {

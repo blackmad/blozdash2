@@ -23,7 +23,6 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
     mo: {
       interval: 1000 * 60 * 60 * 24 * 30,
     },
-
     d: {
       interval: 1000 * 60 * 60 * 24,
     },
@@ -31,30 +30,42 @@ function DateDiff({ date1, date2 }: { date1: Date; date2: Date }): JSX.Element {
       interval: 1000 * 60 * 60,
     },
     m: { interval: 1000 * 60 },
-    // s: 1000,
   } as const;
 
-  return (
-    <div className="text-center">
-      {_.map(timeIntervals, (intervalObj, timeString) => {
-        const { interval } = intervalObj;
-        if (diff >= interval) {
-          const time = Math.floor(diff / interval);
-          // result += `${time} ${key}${time !== 1 ? 's' : ''} `;
-          // const result =
-          //   timeString === 'm' || timeString === 'h'
-          //     ? timeString === 'm'
-          //       ? `${time}`
-          //       : `${time}:`
-          //     : `${time}${timeString} `;
-          const result = `${time}${timeString} `;
+  // Calculate total days
+  const totalDays = Math.floor(diff / timeIntervals.d.interval);
 
-          diff %= interval;
-          return <span className={fontSizes.shift()}>{result}</span>;
-        }
-      })}
-    </div>
-  );
+  let dateString = _.map(timeIntervals, (intervalObj, timeString) => {
+    const { interval } = intervalObj;
+
+    // Skip hours and minutes if more than 14 days
+    if (totalDays > 14 && (timeString === 'h' || timeString === 'm')) {
+      return null;
+    }
+
+    // Show only days if less than 60 days
+    if (totalDays < 60 && (timeString === 'h' || timeString === 'm')) {
+      return null;
+    }
+
+    if (diff >= interval) {
+      const time = Math.floor(diff / interval);
+      const result = `${time}${timeString} `;
+      diff %= interval;
+      return (
+        <span key={timeString} className={fontSizes.shift()}>
+          {result}
+        </span>
+      );
+    }
+    return null;
+  });
+
+  if (totalDays <= 1 || dateString.length === 0) {
+    dateString = [<span className={fontSizes[0]}>1d</span>];
+  }
+
+  return <div className="text-center">{dateString}</div>;
 }
 
 export const DateCard = (
@@ -94,11 +105,17 @@ export const DateCard = (
         <Title>{title}</Title>
         {/* <p className="text-gray-700">{subtitle}</p> */}
 
-        <SubTitle>
-          {entry.data.preposition || (!isPast ? 'in' : 'for')}
-        </SubTitle>
+        {/* <SubTitle>
+          {entry.data.preposition}
+        </SubTitle> */}
 
         <DateDiff date1={parsedStartDate} date2={now} />
+
+        {
+          <SubTitle>
+            {parsedEndDate ? 'total' : isPast ? 'ago' : 'from now'}
+          </SubTitle>
+        }
       </div>
 
       <FooterText>
